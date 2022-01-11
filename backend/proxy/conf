@@ -1,0 +1,7 @@
+server {
+    listen 80;
+
+    location /server/ {
+      proxy_pass http://general_server:5000/;
+    }
+}

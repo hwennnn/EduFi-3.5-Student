@@ -19,7 +19,7 @@ services:
       - '3306'
       # Where our data will be persisted
     volumes:
-      - ./REST/students/database/:/app
+      - ./backend/students/database/:/app
     networks:
       - sub-etha
   
@@ -27,13 +27,13 @@ services:
     container_name: student_microservice
     # Configuration for building the docker image for the service
     build:
-      context: ./REST/students/server/ # Use an image built from the specified dockerfile in the current directory.
+      context: ./backend/students/server/ # Use an image built from the specified dockerfile in the current directory.
       dockerfile: Dockerfile
     expose:
       # Opens port 8080 on the container
       - '8080'
     volumes:
-      - ./REST/students/server:/code
+      - ./backend/students/server:/code
     restart: always
     depends_on:
       - student_db
@@ -43,10 +43,10 @@ services:
   student_acl:
     container_name: student_acl_server
     build:
-      context: ./REST/students/acl/
+      context: ./backend/students/acl/
       target: dev
     volumes:
-      - ./REST/students/acl/:/app
+      - ./backend/students/acl/:/app
       - /app/node_modules
     command: npm run start
     expose:
@@ -57,6 +57,39 @@ services:
       DEBUG: nodejs-docker-express:*
     depends_on:
       - student_backend
+    networks:
+      - sub-etha
+  
+  general_server:
+    container_name: edufi_general_purpose_server
+    build:
+      context: ./server/
+      target: dev
+    volumes:
+      - ./server/:/app
+      - /app/node_modules
+    command: npm run start
+    expose:
+      # Opens port 5000 on the container
+      - '5000'
+    environment:
+      NODE_ENV: development
+      DEBUG: nodejs-docker-express:*
+    depends_on:
+      - student_backend
+    networks:
+      - sub-etha
+
+  proxy:
+    container_name: edufi_proxy
+    build: 
+      context: backend/proxy
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    depends_on: 
+      - general_server
+      - student_acl
     networks:
       - sub-etha
 

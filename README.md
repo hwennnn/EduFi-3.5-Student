@@ -2,9 +2,10 @@
 
 ## Folder Structure
 
-|   Codebase   | Description |
-| :----------: | :---------: |
-| [REST](REST) |  REST API   |
+|      Codebase      |            Description             |
+| :----------------: | :--------------------------------: |
+| [backend](backend) |           EduFi Backend            |
+|  [server](server)  | General-Purpose API Backend Server |
 
 ## Usage
 
