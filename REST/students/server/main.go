@@ -220,7 +220,7 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 func main() {
 
 	// Use mysql as driverName and a valid DSN as dataSourceName:
-	db, _ = sql.Open("mysql", "user:password@tcp(db:3306)/Edufi_Student")
+	db, _ = sql.Open("mysql", "user:password@tcp(student_db:3306)/Edufi_Student")
 
 	fmt.Println("Database opened")
 

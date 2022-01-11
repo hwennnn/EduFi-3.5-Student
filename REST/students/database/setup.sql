@@ -1,7 +1,7 @@
-/* CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL ON *.* TO 'user'@'localhost'; */
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL ON *.* TO 'user'@'localhost';
 
-CREATE database Edufi_Student;
+/* CREATE database Edufi_Student; */
 
 USE Edufi_Student;
 
