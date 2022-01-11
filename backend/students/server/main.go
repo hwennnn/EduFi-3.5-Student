@@ -78,8 +78,8 @@ func getStudent(res http.ResponseWriter, req *http.Request) {
 
 // This helper method helps to query the student from the database,
 // and return (boolean, student) tuple object
-func getStudentHelper(driverID string) (bool, models.Student) {
-	query := fmt.Sprintf("SELECT * FROM Students WHERE StudentID='%s'", driverID)
+func getStudentHelper(studentID string) (bool, models.Student) {
+	query := fmt.Sprintf("SELECT * FROM Students WHERE StudentID='%s'", studentID)
 	databaseResults, err := db.Query(query)
 	if err != nil {
 		panic(err.Error())
@@ -130,7 +130,7 @@ func postStudent(res http.ResponseWriter, req *http.Request) {
 		isStudentExist, _ := getStudentHelper(studentID)
 
 		if !isStudentExist {
-			query := fmt.Sprintf("INSERT INTO Drivers VALUES ('%s', '%s', '%s', '%s', '%s')", newStudent.StudentID, newStudent.Name, newStudent.DateOfBirth, newStudent.Address, newStudent.PhoneNumber)
+			query := fmt.Sprintf("INSERT INTO Students VALUES ('%s', '%s', '%s', '%s', '%s')", newStudent.StudentID, newStudent.Name, newStudent.DateOfBirth, newStudent.Address, newStudent.PhoneNumber)
 
 			_, err := db.Query(query)
 
@@ -179,7 +179,7 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			query := fmt.Sprintf("INSERT INTO Drivers VALUES ('%s', '%s', '%s', '%s', '%s')", newStudent.StudentID, newStudent.Name, newStudent.DateOfBirth, newStudent.Address, newStudent.PhoneNumber)
+			query := fmt.Sprintf("INSERT INTO Students VALUES ('%s', '%s', '%s', '%s', '%s')", newStudent.StudentID, newStudent.Name, newStudent.DateOfBirth, newStudent.Address, newStudent.PhoneNumber)
 
 			_, err := db.Query(query)
 
@@ -199,7 +199,7 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 				return
 			}
 
-			query := fmt.Sprintf("UPDATE Drivers SET %s WHERE StudentID='%s'", formattedUpdateFieldQuery, newStudent.StudentID)
+			query := fmt.Sprintf("UPDATE Students SET %s WHERE StudentID='%s'", formattedUpdateFieldQuery, newStudent.StudentID)
 
 			_, err := db.Query(query)
 
@@ -227,9 +227,9 @@ func main() {
 	router := mux.NewRouter()
 	router.Use(middleware)
 	router.HandleFunc("/api/v1/students", getStudents).Methods("GET")
-	router.HandleFunc("/api/v1/students/{studentID}", getStudent).Methods("GET")
-	router.HandleFunc("/api/v1/students/{studentID}", postStudent).Methods("POST")
-	router.HandleFunc("/api/v1/students/{studentID}", putStudent).Methods("PUT")
+	router.HandleFunc("/api/v1/students/{studentid}", getStudent).Methods("GET")
+	router.HandleFunc("/api/v1/students/{studentid}", postStudent).Methods("POST")
+	router.HandleFunc("/api/v1/students/{studentid}", putStudent).Methods("PUT")
 
 	// enable cross-origin resource sharing (cors) for all requests
 	handler := cors.AllowAll().Handler(router)
