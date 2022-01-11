@@ -2,7 +2,7 @@
 
 **Base URL: http://localhost:80/server/**
 
-### Data Structures
+# Data Structures
 
 |  Field Name   |  Type  |                                         Description                                         |
 | :-----------: | :----: | :-----------------------------------------------------------------------------------------: |
@@ -14,17 +14,17 @@
 
 ---
 
-### 1.1 **[GET]** api/v1/students/
+## 1.1 **[GET]** api/v1/students/
 
 It retrieves the students based on the request body parameters (if there is any). It supports filtering the students by putting the filtered condition in the request body parameters.
 
-#### Endpoint URL
+### Endpoint URL
 
 ```bash
 http://localhost:80/server/api/v1/students/
 ```
 
-#### JSON Body Paremeters
+### JSON Body Paremeters
 
 |     Name      |  Type  |   Required   | Description                                                                                 |
 | :-----------: | :----: | :----------: | ------------------------------------------------------------------------------------------- |
@@ -33,7 +33,7 @@ http://localhost:80/server/api/v1/students/
 |    address    | string | Not required | The address of the student                                                                  |
 | phone_number  | string | Not required | The phone number of the student                                                             |
 
-#### Response
+### Response
 
 The response will be a status code 200 and an array of student json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
 
@@ -65,17 +65,17 @@ The response will be a status code 200 and an array of student json object if su
 
 ---
 
-### 1.2 **[GET]** api/v1/students/:studentid
+## 1.2 **[GET]** api/v1/students/:studentid
 
 It retrieves the student associated with the supplied studentid. A studentID must be supplied in the request query parameters.
 
-#### Endpoint URL
+### Endpoint URL
 
 ```bash
 http://localhost:80/server/api/v1/students/1
 ```
 
-#### Response
+### Response
 
 The response will be a status code 200 and a student json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful. For example, it will return 404 if no record is found.
 
@@ -91,17 +91,17 @@ The response will be a status code 200 and a student json object if successful, 
 
 ---
 
-### 1.3 **[POST]** api/v1/students/:studentid
+## 1.3 **[POST]** api/v1/students/:studentid
 
 It creates a student in MySQL database by specific studentid. Information such as student_id, name, date_of_birth, address, and phone_number must be supplied in the request body during registration.
 
-#### Endpoint URL
+### Endpoint URL
 
 ```bash
 http://localhost:80/server/api/v1/students/4
 ```
 
-#### JSON Body Paremeters
+### JSON Body Paremeters
 
 |     Name      |  Type  | Required | Description                                                                                 |
 | :-----------: | :----: | :------: | ------------------------------------------------------------------------------------------- |
@@ -111,7 +111,7 @@ http://localhost:80/server/api/v1/students/4
 |    address    | string | Required | The address of the student                                                                  |
 | phone_number  | string | Required | The phone number of the student                                                             |
 
-#### Request body
+### Request body
 
 ```json
 {
@@ -123,7 +123,7 @@ http://localhost:80/server/api/v1/students/4
 }
 ```
 
-#### Response
+### Response
 
 Case 1: If the compulsory student information is not provided, it will return message which says the information is not correctly supplied<br>
 Case 2: It will fail and return conflict status code if a student with same studentID is already found in the database<br>
@@ -138,17 +138,17 @@ Case 3: Otherwise, it will return success message with status created code
 
 ---
 
-### 1.4 **[PUT]** api/v1/students/:studentid
+## 1.4 **[PUT]** api/v1/students/:studentid
 
 It is either used for creating or updating the student depends whether the studentID exists. It allows updating fields for name, date_of_birth, address, and phone_number by putting the fields in the request body.
 
-#### Endpoint URL
+### Endpoint URL
 
 ```bash
 http://localhost:80/server/api/v1/students/4
 ```
 
-#### JSON Body Paremeters (for update)
+### JSON Body Paremeters (for update)
 
 |     Name      |  Type  |   Required   | Description                                                                                 |
 | :-----------: | :----: | :----------: | ------------------------------------------------------------------------------------------- |
@@ -158,7 +158,7 @@ http://localhost:80/server/api/v1/students/4
 |    address    | string | Not required | The address of the student                                                                  |
 | phone_number  | string | Not required | The phone number of the student                                                             |
 
-#### Request body Example
+### Request body Example
 
 ```json
 {
@@ -167,7 +167,7 @@ http://localhost:80/server/api/v1/students/4
 }
 ```
 
-#### Response
+### Response
 
 Case 1: If studentID exists, update the student using the information retrieved from request body<br>
 Case 2: If studentID does not exist, create the student using the information retrieved from request body
