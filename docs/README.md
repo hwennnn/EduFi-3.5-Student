@@ -111,7 +111,7 @@ http://localhost:80/server/api/v1/students/4
 |    address    | string | Required | The address of the student                                                                  |
 | phone_number  | string | Required | The phone number of the student                                                             |
 
-### Request body
+### Request Body Example
 
 ```json
 {
@@ -158,7 +158,7 @@ http://localhost:80/server/api/v1/students/4
 |    address    | string | Not required | The address of the student                                                                  |
 | phone_number  | string | Not required | The phone number of the student                                                             |
 
-### Request body Example
+### Request Body Example
 
 ```json
 {
