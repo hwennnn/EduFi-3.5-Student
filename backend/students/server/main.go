@@ -17,9 +17,6 @@ import (
 	"github.com/rs/cors"
 )
 
-// global database handler object
-var db *sql.DB
-
 // this middleware will set the returned content type as application/json
 // this helps reduce code redudancy, which originally has to be added in each response writer
 func middleware(next http.Handler) http.Handler {
@@ -32,6 +29,8 @@ func middleware(next http.Handler) http.Handler {
 // This method is used to retrieve students from MySQL,
 // and return the result in array of student json object
 func getStudents(res http.ResponseWriter, req *http.Request) {
+	studentDB := openStudentsDB()
+
 	var results []models.Student
 
 	params := req.URL.Query()
@@ -40,7 +39,7 @@ func getStudents(res http.ResponseWriter, req *http.Request) {
 	formmatedFieldQuery := utils.FormattedStudentQueryField(params)
 	query := fmt.Sprintf("SELECT * FROM Students %s", formmatedFieldQuery)
 
-	databaseResults, err := db.Query(query)
+	databaseResults, err := studentDB.Query(query)
 
 	if err != nil {
 		panic(err.Error())
@@ -58,6 +57,8 @@ func getStudents(res http.ResponseWriter, req *http.Request) {
 
 	// Returns all the students in JSON
 	json.NewEncoder(res).Encode(results)
+
+	closeStudentsDB(studentDB)
 }
 
 // This method is used to retrieve a student from MySQL by specific studentID,
@@ -79,8 +80,10 @@ func getStudent(res http.ResponseWriter, req *http.Request) {
 // This helper method helps to query the student from the database,
 // and return (boolean, student) tuple object
 func getStudentHelper(studentID string) (bool, models.Student) {
+	studentDB := openStudentsDB()
+
 	query := fmt.Sprintf("SELECT * FROM Students WHERE StudentID='%s'", studentID)
-	databaseResults, err := db.Query(query)
+	databaseResults, err := studentDB.Query(query)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -95,6 +98,8 @@ func getStudentHelper(studentID string) (bool, models.Student) {
 		isExist = true
 	}
 
+	closeStudentsDB(studentDB)
+
 	return isExist, student
 }
 
@@ -103,6 +108,8 @@ func getStudentHelper(studentID string) (bool, models.Student) {
 // Case 2: It will fail and return conflict status code if a student with same studentID is already found in the database
 // Case 3: Otherwise, it will return success message with status created code
 func postStudent(res http.ResponseWriter, req *http.Request) {
+	studentDB := openStudentsDB()
+
 	params := mux.Vars(req)
 	studentID := params["studentid"]
 
@@ -117,12 +124,14 @@ func postStudent(res http.ResponseWriter, req *http.Request) {
 		if !utils.IsStudentJsonCompleted(newStudent) {
 			res.WriteHeader(http.StatusUnprocessableEntity)
 			res.Write([]byte("422 - Please supply student information in JSON format"))
+			closeStudentsDB(studentDB)
 			return
 		}
 
 		if studentID != newStudent.StudentID {
 			res.WriteHeader(http.StatusUnprocessableEntity)
 			res.Write([]byte("422 - The data in body and parameters do not match"))
+			closeStudentsDB(studentDB)
 			return
 		}
 
@@ -132,7 +141,7 @@ func postStudent(res http.ResponseWriter, req *http.Request) {
 		if !isStudentExist {
 			query := fmt.Sprintf("INSERT INTO Students VALUES ('%s', '%s', '%s', '%s', '%s')", newStudent.StudentID, newStudent.Name, newStudent.DateOfBirth, newStudent.Address, newStudent.PhoneNumber)
 
-			_, err := db.Query(query)
+			_, err := studentDB.Query(query)
 
 			if err != nil {
 				panic(err.Error())
@@ -148,12 +157,16 @@ func postStudent(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusUnprocessableEntity)
 		res.Write([]byte("422 - Please supply student information in JSON format"))
 	}
+
+	closeStudentsDB(studentDB)
 }
 
 // This method is used for either creating or updating the student depends whether the studentID exists
 // Case 1: If studentID exists, update the student using the information retrieved from request body
 // Case 2: If studentID does not exist, create the student using the information retrieved from request body
 func putStudent(res http.ResponseWriter, req *http.Request) {
+	studentDB := openStudentsDB()
+
 	params := mux.Vars(req)
 	studentID := params["studentid"]
 
@@ -166,6 +179,7 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 		if studentID != newStudent.StudentID {
 			res.WriteHeader(http.StatusUnprocessableEntity)
 			res.Write([]byte("422 - The data in body and parameters do not match"))
+			closeStudentsDB(studentDB)
 			return
 		}
 
@@ -176,12 +190,13 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 			if !utils.IsStudentJsonCompleted(newStudent) {
 				res.WriteHeader(http.StatusUnprocessableEntity)
 				res.Write([]byte("422 - Please supply student information in JSON format"))
+				closeStudentsDB(studentDB)
 				return
 			}
 
 			query := fmt.Sprintf("INSERT INTO Students VALUES ('%s', '%s', '%s', '%s', '%s')", newStudent.StudentID, newStudent.Name, newStudent.DateOfBirth, newStudent.Address, newStudent.PhoneNumber)
 
-			_, err := db.Query(query)
+			_, err := studentDB.Query(query)
 
 			if err != nil {
 				panic(err.Error())
@@ -196,12 +211,13 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 			if formattedUpdateFieldQuery == "" {
 				res.WriteHeader(http.StatusUnprocessableEntity)
 				res.Write([]byte("422 - Please supply student information in JSON format"))
+				closeStudentsDB(studentDB)
 				return
 			}
 
 			query := fmt.Sprintf("UPDATE Students SET %s WHERE StudentID='%s'", formattedUpdateFieldQuery, newStudent.StudentID)
 
-			_, err := db.Query(query)
+			_, err := studentDB.Query(query)
 
 			if err != nil {
 				panic(err.Error())
@@ -215,14 +231,30 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusUnprocessableEntity)
 		res.Write([]byte("422 - Please supply student information in JSON format"))
 	}
+
+	closeStudentsDB(studentDB)
+}
+
+func openStudentsDB() sql.DB {
+	// Use mysql as driverName and a valid DSN as dataSourceName:
+	studentDB, err := sql.Open("mysql", "user:password@tcp(student_db:3306)/Edufi_Student")
+
+	if err != nil {
+		panic(err.Error())
+	} else {
+		fmt.Println("EduFi Student Database Connection Opened!")
+
+	}
+
+	return *studentDB
+}
+
+func closeStudentsDB(studentDB sql.DB) {
+	studentDB.Close()
+	fmt.Println("EduFi Student Database Connection Closed!")
 }
 
 func main() {
-
-	// Use mysql as driverName and a valid DSN as dataSourceName:
-	db, _ = sql.Open("mysql", "user:password@tcp(student_db:3306)/Edufi_Student")
-
-	fmt.Println("Database opened")
 
 	router := mux.NewRouter()
 	router.Use(middleware)

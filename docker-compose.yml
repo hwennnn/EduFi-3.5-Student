@@ -29,6 +29,12 @@ services:
     build:
       context: ./backend/students/server/ # Use an image built from the specified dockerfile in the current directory.
       dockerfile: Dockerfile
+    environment:
+      APP_DB_CONTAINER_NAME: 'student_db'
+      APP_DB_NAME: 'Edufi_Student'
+      APP_DB_PORT: '3306'
+      APP_DB_USERNAME: 'user'
+      APP_DB_PASSWORD": 'password'
     expose:
       # Opens port 8080 on the container
       - '8080'
