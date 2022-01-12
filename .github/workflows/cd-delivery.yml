@@ -103,5 +103,5 @@ jobs:
         with:
           context: ./server/
           push: true
-          tags: hwendev/EduFi_general_purpose_server:latest
+          tags: hwendev/general_server:latest
     
