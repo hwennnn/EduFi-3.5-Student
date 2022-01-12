@@ -12,11 +12,6 @@ jobs:
 
       - name: Build the stack
         run: docker-compose up -d
-
-      - name: Initialise Database with SQL Script
-        run : |
-          docker exec -i edufi_student_db bash
-          mysql -uroot -ppassword Edufi_Student < app/setup.sql
   
       - name: Install Node
         uses: actions/setup-node@v1
@@ -30,6 +25,16 @@ jobs:
       - name: Test REST API with POSTMAN collection
         run: |
           newman run ./test/Edufi-Student.postman_collection.json -r cli
+      
+      # - if: ${{failure()}}       
+      #   name: Create Issues
+      #   uses: nashmaniac/create-issue-action@v1.1
+      #   with:
+      #       title: Build Failed for CI on Push Events
+      #       token: ${{secrets.GITHUB_TOKEN}}
+      #       assignees: ${{github.actor}}
+      #       labels: worflow-failed
+      #       body: Workflow failed for commit ${{github.sha}} @ ${{github.ref}}  
 
       # - name: Web Testing
       #   run: docker run --network container:edufi-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:80/

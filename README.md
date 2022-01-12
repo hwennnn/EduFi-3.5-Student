@@ -16,11 +16,6 @@ docker-compose pull
 docker-compose up
 ```
 
-### Initialise the MySQL database with setup script
-
-```bash
-docker exec -it edufi_student_db bash
-mysql -uroot -ppassword Edufi_Student < app/setup.sql
-```
+**The SQL setup script will be executed automatically at build time.**
 
 Finally, open http://localhost:80 for the frontend client.
