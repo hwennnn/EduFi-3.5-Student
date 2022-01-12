@@ -20,6 +20,10 @@ docker-compose up
 
 Finally, open http://localhost:80 for the frontend client.
 
+## Architecture Diagram
+
+![Architecture Diagram](docs/architecture_diagram.png)
+
 ## API Documentation
 
 Kindly refer to [this](docs/README.md) for more details on the EduFi Student API server.
