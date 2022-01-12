@@ -79,6 +79,23 @@ services:
     networks:
       - sub-etha
 
+  frontend:
+    container_name: edufi_web_frontend
+    build:
+      context: ./frontend/
+      target: dev
+    volumes:
+      - ./frontend/:/app
+      - /app/node_modules
+    expose:
+      # Opens port 3000 on the container
+      - '3000'
+    depends_on:
+      - proxy
+    networks:
+      - sub-etha  
+
+
   proxy:
     container_name: edufi_proxy
     build: 
