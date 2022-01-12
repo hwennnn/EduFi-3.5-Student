@@ -58,9 +58,6 @@ services:
     expose:
       # Opens port 4000 on the container
       - '4000'
-    environment:
-      NODE_ENV: development
-      DEBUG: nodejs-docker-express:*
     depends_on:
       - student_backend
     networks:
@@ -77,9 +74,6 @@ services:
     expose:
       # Opens port 5000 on the container
       - '5000'
-    environment:
-      NODE_ENV: development
-      DEBUG: nodejs-docker-express:*
     depends_on:
       - student_backend
     networks:
