@@ -24,7 +24,7 @@ services:
       - sub-etha
   
   student_backend:
-    container_name: student_microservice
+    container_name: edufi_student_backend
     # Configuration for building the docker image for the service
     build:
       context: ./backend/students/server/ # Use an image built from the specified dockerfile in the current directory.
@@ -47,7 +47,7 @@ services:
       - sub-etha
 
   student_acl:
-    container_name: student_acl_server
+    container_name: edufi_student_acl_server
     build:
       context: ./backend/students/acl/
       target: dev
