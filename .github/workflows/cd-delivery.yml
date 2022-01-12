@@ -7,40 +7,40 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
 
-  #     - name: Build the stack
-  #       run: docker-compose up -d
+      - name: Build the stack
+        run: docker-compose up -d
   
-  #     - name: Install Node
-  #       uses: actions/setup-node@v1
-  #       with: 
-  #         node-version: '12.x'
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with: 
+          node-version: '12.x'
 
-  #     - name: Install newman
-  #       run: |
-  #         npm install -g newman
+      - name: Install newman
+        run: |
+          npm install -g newman
 
-  #     - name: Test REST API with POSTMAN collection
-  #       run: |
-  #         newman run ./test/Edufi-Student.postman_collection.json -r cli
+      - name: Test REST API with POSTMAN collection
+        run: |
+          newman run ./test/Edufi-Student.postman_collection.json -r cli
       
-  #     - if: ${{failure()}}       
-  #       name: Create Issues
-  #       uses: nashmaniac/create-issue-action@v1.1
-  #       with:
-  #           title: Build Failed for CI on Push Events
-  #           token: ${{secrets.GITHUB_TOKEN}}
-  #           assignees: ${{github.actor}}
-  #           labels: worflow-failed
-  #           body: Workflow failed for commit ${{github.sha}} @ ${{github.ref}}  
+      - if: ${{failure()}}       
+        name: Create Issues
+        uses: nashmaniac/create-issue-action@v1.1
+        with:
+            title: Build Failed for CI on Push Events
+            token: ${{secrets.GITHUB_TOKEN}}
+            assignees: ${{github.actor}}
+            labels: worflow-failed
+            body: Workflow failed for commit ${{github.sha}} @ ${{github.ref}}  
 
   release:
     runs-on: ubuntu-latest
-    # needs: build
+    needs: build
     steps:
     - uses: actions/checkout@v2
 
@@ -78,10 +78,20 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         branch: release-${{ env.RELEASE_VERSION }}
+    
+    - if: ${{failure()}}       
+      name: Create Issues
+      uses: nashmaniac/create-issue-action@v1.1
+      with:
+          title: Release Failed for CD on Tag Push Events
+          token: ${{secrets.GITHUB_TOKEN}}
+          assignees: ${{github.actor}}
+          labels: worflow-failed
+          body: Workflow failed for commit ${{github.sha}} @ ${{github.ref}}  
   
   push-docker-images:
     runs-on: ubuntu-latest
-    # needs: build
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -147,3 +157,13 @@ jobs:
           tags: |
             hwendev/edufi_student_acl:latest
             ghcr.io/hwennnn/edufi_student_acl:latest
+              
+      - if: ${{failure()}}       
+        name: Create Issues
+        uses: nashmaniac/create-issue-action@v1.1
+        with:
+            title: Actions Failed for CD when pushing docker images
+            token: ${{secrets.GITHUB_TOKEN}}
+            assignees: ${{github.actor}}
+            labels: worflow-failed
+            body: Workflow failed for commit ${{github.sha}} @ ${{github.ref}}  
