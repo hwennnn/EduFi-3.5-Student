@@ -113,7 +113,7 @@ jobs:
           push: true
           tags: |
             hwendev/edufi_general_server:latest
-            ghcr.io/hwendev/edufi_general_server:latest
+            ghcr.io/hwennnn/edufi_general_server:latest
       
       - name: Build and push Edufi Proxy
         uses: docker/build-push-action@v2
@@ -123,7 +123,7 @@ jobs:
           push: true
           tags: |
             hwendev/edufi_proxy:latest
-            ghcr.io/hwendev/edufi_proxy:latest
+            ghcr.io/hwennnn/edufi_proxy:latest
 
       - name: Build and push Edufi Student REST API
         uses: docker/build-push-action@v2
@@ -133,7 +133,7 @@ jobs:
           push: true
           tags: |
             hwendev/edufi_student_backend:latest
-            ghcr.io/hwendev/edufi_student_backend:latest
+            ghcr.io/hwennnn/edufi_student_backend:latest
 
       - name: Build and push Edufi Student ACL
         uses: docker/build-push-action@v2
@@ -143,4 +143,4 @@ jobs:
           push: true
           tags: |
             hwendev/edufi_student_acl:latest
-            ghcr.io/hwendev/edufi_student_acl:latest
+            ghcr.io/hwennnn/edufi_student_acl:latest
