@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"os"
 
 	"fmt"
 	"io/ioutil"
@@ -236,8 +237,10 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 }
 
 func openStudentsDB() sql.DB {
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", os.Getenv("APP_DB_USERNAME"), os.Getenv("APP_DB_PASSWORD"), os.Getenv("APP_DB_CONTAINER_NAME"), os.Getenv("APP_DB_PORT"), os.Getenv("APP_DB_NAME"))
+
 	// Use mysql as driverName and a valid DSN as dataSourceName:
-	studentDB, err := sql.Open("mysql", "user:password@tcp(student_db:3306)/Edufi_Student")
+	studentDB, err := sql.Open("mysql", connectionString)
 
 	if err != nil {
 		panic(err.Error())
