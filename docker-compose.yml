@@ -91,7 +91,7 @@ services:
       # Opens port 3000 on the container
       - '3000'
     depends_on:
-      - proxy
+      - general_server
     networks:
       - sub-etha  
 
@@ -105,7 +105,7 @@ services:
       - 80:80
     depends_on: 
       - general_server
-      - student_acl
+      - frontend
     networks:
       - sub-etha
 
