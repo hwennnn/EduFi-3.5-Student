@@ -8,35 +8,51 @@ const studentRouter = express.Router();
 // Redirect the requests to the driver microservice
 
 studentRouter.get("/", async function (req, res) {
-    const result = await axios.get(url.format({
-        pathname: `${studentEndpointBaseURL}`,
-        query: req.query,
-    }));
+    try {
+        const result = await axios.get(url.format({
+            pathname: `${studentEndpointBaseURL}`,
+            query: req.query,
+        }));
 
-    res.status(result.status).json(result.data);
+        res.status(result.status).json(result.data);
+    } catch (exception) {
+        res.status(exception.response.status).json(exception.response.statusText);
+    }
 });
 
 studentRouter.get("/:studentID", async function (req, res) {
-    let studentID = req.params.studentID;
-    const result = await axios.get(`${studentEndpointBaseURL}/${studentID}`);
+    try {
+        let studentID = req.params.studentID;
+        const result = await axios.get(`${studentEndpointBaseURL}/${studentID}`);
 
-    res.status(result.status).json(result.data);
+        res.status(result.status).json(result.data);
+    } catch (exception) {
+        res.status(exception.response.status).json(exception.response.statusText);
+    }
 });
 
 studentRouter.post("/:studentID", async function (req, res) {
-    let studentID = req.params.studentID;
-    let body = req.body;
-    const result = await axios.post(`${studentEndpointBaseURL}/${studentID}`, body);
+    try {
+        let studentID = req.params.studentID;
+        let body = req.body;
+        const result = await axios.post(`${studentEndpointBaseURL}/${studentID}`, body);
 
-    res.status(result.status).json(result.data);
+        res.status(result.status).json(result.data);
+    } catch (exception) {
+        res.status(exception.response.status).json(exception.response.statusText);
+    }
 });
 
 studentRouter.put("/:studentID", async function (req, res) {
-    let studentID = req.params.studentID;
-    let body = req.body;
-    const result = await axios.put(`${studentEndpointBaseURL}/${studentID}`, body);
+    try {
+        let studentID = req.params.studentID;
+        let body = req.body;
+        const result = await axios.put(`${studentEndpointBaseURL}/${studentID}`, body);
 
-    res.status(result.status).json(result.data);
+        res.status(result.status).json(result.data);
+    } catch (exception) {
+        res.status(exception.response.status).json(exception.response.statusText);
+    }
 });
 
 export default studentRouter;
