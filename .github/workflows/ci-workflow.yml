@@ -35,6 +35,3 @@ jobs:
             assignees: ${{github.actor}}
             labels: worflow-failed
             body: Workflow failed for commit ${{github.sha}} @ ${{github.ref}}  
-
-      # - name: Web Testing
-      #   run: docker run --network container:edufi-frontend appropriate/curl -s --retry 10 --retry-connrefused http://localhost:80/
