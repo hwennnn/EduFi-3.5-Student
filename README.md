@@ -20,7 +20,7 @@ docker-compose up
 
 ```bash
 docker exec -it edufi_student_db bash
-mysql -uroot -p Edufi_Student < app/setup.sql
+mysql -uroot -ppassword Edufi_Student < app/setup.sql
 ```
 
 Finally, open http://localhost:80 for the frontend client.
