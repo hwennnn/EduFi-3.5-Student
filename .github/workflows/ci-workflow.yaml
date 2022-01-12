@@ -15,7 +15,7 @@ jobs:
 
       - name: Initialise Database with SQL Script
         run : |
-          docker exec -it edufi_student_db bash
+          docker exec -i edufi_student_db bash
           mysql -uroot -ppassword Edufi_Student < app/setup.sql
   
       - name: Install Node
