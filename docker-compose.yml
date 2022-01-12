@@ -74,7 +74,6 @@ services:
     volumes:
       - ./server/:/app
       - /app/node_modules
-    command: npm run start
     expose:
       # Opens port 5000 on the container
       - '5000'

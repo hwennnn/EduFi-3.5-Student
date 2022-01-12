@@ -7,10 +7,10 @@ FROM base as production
 ENV NODE_ENV=production
 RUN npm ci
 COPY . /
-CMD ["node", "bin/www"]
+CMD ["npm", "run", "start"]
 
 FROM base as dev
 ENV NODE_ENV=development
 RUN npm install -g nodemon && npm install
 COPY . /
-CMD ["nodemon", "bin/www"]
+CMD ["npm", "run", "dev"]
