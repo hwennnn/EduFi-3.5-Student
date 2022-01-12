@@ -97,31 +97,50 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Edufi General Server
         uses: docker/build-push-action@v2
         with:
           context: ./server/
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: hwendev/edufi_general_server:latest
+          tags: |
+            hwendev/edufi_general_server:latest
+            ghcr.io/hwendev/edufi_general_server:latest
       
       - name: Build and push Edufi Proxy
         uses: docker/build-push-action@v2
         with:
           context: ./backend/proxy/
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: hwendev/edufi_proxy:latest
+          tags: |
+            hwendev/edufi_proxy:latest
+            ghcr.io/hwendev/edufi_proxy:latest
 
       - name: Build and push Edufi Student REST API
         uses: docker/build-push-action@v2
         with:
           context: ./backend/students/server/
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: hwendev/edufi_student_backend:latest
+          tags: |
+            hwendev/edufi_student_backend:latest
+            ghcr.io/hwendev/edufi_student_backend:latest
 
       - name: Build and push Edufi Student ACL
         uses: docker/build-push-action@v2
         with:
           context: ./backend/students/acl/
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: hwendev/edufi_student_acl:latest
+          tags: |
+            hwendev/edufi_student_acl:latest
+            ghcr.io/hwendev/edufi_student_acl:latest
