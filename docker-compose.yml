@@ -50,13 +50,17 @@ services:
     container_name: student_acl_server
     build:
       context: ./backend/students/acl/
-      target: production
+      target: dev
     volumes:
       - ./backend/students/acl/:/app
       - /app/node_modules
+    command: npm run start
     expose:
       # Opens port 4000 on the container
       - '4000'
+    environment:
+      NODE_ENV: development
+      DEBUG: nodejs-docker-express:*
     depends_on:
       - student_backend
     networks:
@@ -66,13 +70,16 @@ services:
     container_name: edufi_general_purpose_server
     build:
       context: ./server/
-      target: production
+      target: dev
     volumes:
       - ./server/:/app
       - /app/node_modules
     expose:
       # Opens port 5000 on the container
       - '5000'
+    environment:
+      NODE_ENV: development
+      DEBUG: nodejs-docker-express:*
     depends_on:
       - student_backend
     networks:
