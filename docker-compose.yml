@@ -37,7 +37,9 @@ services:
       APP_DB_PASSWORD: 'password'
     expose:
       # Opens port 8080 on the container
-      - '8080'
+      - '9211'
+    ports:
+      - 9211:9211
     volumes:
       - ./backend/students/server:/code
     restart: always
@@ -102,7 +104,7 @@ services:
       context: backend/proxy
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 9210:9210
     depends_on: 
       - general_server
       - frontend

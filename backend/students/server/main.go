@@ -269,6 +269,6 @@ func main() {
 	// enable cross-origin resource sharing (cors) for all requests
 	handler := cors.AllowAll().Handler(router)
 
-	fmt.Println("Student database server -- Listening at port 8080")
-	log.Fatal(http.ListenAndServe(":8080", handler))
+	fmt.Println("Student database server -- Listening at port 9211")
+	log.Fatal(http.ListenAndServe(":9211", handler))
 }
