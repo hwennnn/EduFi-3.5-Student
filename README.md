@@ -19,7 +19,7 @@ docker-compose up
 
 **The SQL setup script will be executed automatically at build time.**
 
-Finally, open http://localhost:80 for the frontend client.
+Finally, open http://localhost:9210 for the frontend client.
 
 ## Architecture Diagram
 

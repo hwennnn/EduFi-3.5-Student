@@ -4,50 +4,53 @@
 		"name": "Edufi-Student",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
-	"item": [{
-			"name": "Retrieve Students #1",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 200\", function () {",
-						"    pm.response.to.have.status(200)",
-						"});",
-						"",
-						"pm.test(\"Response should be okay to process\", function () {",
-						"    pm.response.to.not.be.error;",
-						"    pm.response.to.not.have.jsonBody(\"error\");",
-						"});",
-						"",
-						"pm.test(\"response must be valid and have a body\", function () {",
-						"     pm.response.to.be.ok;",
-						"     pm.response.to.be.withBody;",
-						"     pm.response.to.be.json;",
-						"});",
-						"",
-						"pm.test(\"Content-Type header is application/json\", () => {",
-						"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
-						"});",
-						"",
-						"pm.test(\"validate json response body type\", function () {",
-						"    const jsonData = pm.response.json();",
-						"",
-						"    pm.expect(jsonData).to.be.an(\"array\");",
-						"});"
-					],
-					"type": "text/javascript"
+	"item": [
+		{
+			"name": "Retrieve Students #1 (PASS)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 200\", function () {",
+							"    pm.response.to.have.status(200)",
+							"});",
+							"",
+							"pm.test(\"Response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     pm.response.to.be.ok;",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+							"});",
+							"",
+							"pm.test(\"validate json response body type\", function () {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData).to.be.an(\"array\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students",
+					"raw": "http://localhost:9210/server/api/v1/students",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -60,50 +63,52 @@
 		},
 		{
 			"name": "Retrieve Student #1 (PASS)",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 200\", function () {",
-						"    pm.response.to.have.status(200)",
-						"});",
-						"",
-						"pm.test(\"Response should be okay to process\", function () {",
-						"    pm.response.to.not.be.error;",
-						"    pm.response.to.not.have.jsonBody(\"error\");",
-						"});",
-						"",
-						"pm.test(\"response must be valid and have a body\", function () {",
-						"     pm.response.to.be.ok;",
-						"     pm.response.to.be.withBody;",
-						"     pm.response.to.be.json;",
-						"});",
-						"",
-						"pm.test(\"Content-Type header is application/json\", () => {",
-						"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
-						"});",
-						"",
-						"pm.test(\"validate json response body type\", function () {",
-						"    const jsonData = pm.response.json();",
-						"",
-						"    pm.expect(jsonData).to.be.an(\"object\");",
-						"});",
-						"",
-						"pm.test(\"validate json response body\", function () {",
-						"    const jsonData = pm.response.json();",
-						"",
-						"    pm.expect(jsonData).to.deep.include({",
-						"        \"student_id\": \"1\",",
-						"        \"name\": \"Wai Hou Man\",",
-						"        \"date_of_birth\": \"996076800000\",",
-						"        \"address\": \"BLK678B Jurong West, Singapore\",",
-						"        \"phone_number\": \"6511111111\"",
-						"    });",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 200\", function () {",
+							"    pm.response.to.have.status(200)",
+							"});",
+							"",
+							"pm.test(\"Response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     pm.response.to.be.ok;",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+							"});",
+							"",
+							"pm.test(\"validate json response body type\", function () {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData).to.be.an(\"object\");",
+							"});",
+							"",
+							"pm.test(\"validate json response body\", function () {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData).to.deep.include({",
+							"        \"student_id\": \"1\",",
+							"        \"name\": \"Wai Hou Man\",",
+							"        \"date_of_birth\": \"996076800000\",",
+							"        \"address\": \"BLK678B Jurong West, Singapore\",",
+							"        \"phone_number\": \"6511111111\"",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -115,12 +120,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/1",
+					"raw": "http://localhost:9210/server/api/v1/students/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -134,50 +139,52 @@
 		},
 		{
 			"name": "Retrieve Student #2 (PASS)",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 200\", function () {",
-						"    pm.response.to.have.status(200)",
-						"});",
-						"",
-						"pm.test(\"Response should be okay to process\", function () {",
-						"    pm.response.to.not.be.error;",
-						"    pm.response.to.not.have.jsonBody(\"error\");",
-						"});",
-						"",
-						"pm.test(\"response must be valid and have a body\", function () {",
-						"     pm.response.to.be.ok;",
-						"     pm.response.to.be.withBody;",
-						"     pm.response.to.be.json;",
-						"});",
-						"",
-						"pm.test(\"Content-Type header is application/json\", () => {",
-						"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
-						"});",
-						"",
-						"pm.test(\"validate json response body type\", function () {",
-						"    const jsonData = pm.response.json();",
-						"",
-						"    pm.expect(jsonData).to.be.an(\"object\");",
-						"});",
-						"",
-						"pm.test(\"validate json response body\", function () {",
-						"    const jsonData = pm.response.json();",
-						"",
-						"    pm.expect(jsonData).to.deep.include({",
-						"        \"student_id\": \"2\",",
-						"        \"name\": \"Zachary Hong Rui Quan\",",
-						"        \"date_of_birth\": \"1007136000000\",",
-						"        \"address\": \"BLK123F Orchard Rd\",",
-						"        \"phone_number\": \"6512345678\"",
-						"    });",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 200\", function () {",
+							"    pm.response.to.have.status(200)",
+							"});",
+							"",
+							"pm.test(\"Response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     pm.response.to.be.ok;",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+							"});",
+							"",
+							"pm.test(\"validate json response body type\", function () {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData).to.be.an(\"object\");",
+							"});",
+							"",
+							"pm.test(\"validate json response body\", function () {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData).to.deep.include({",
+							"        \"student_id\": \"2\",",
+							"        \"name\": \"Zachary Hong Rui Quan\",",
+							"        \"date_of_birth\": \"1007136000000\",",
+							"        \"address\": \"BLK123F Orchard Rd\",",
+							"        \"phone_number\": \"6512345678\"",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -189,12 +196,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/2",
+					"raw": "http://localhost:9210/server/api/v1/students/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -208,50 +215,52 @@
 		},
 		{
 			"name": "Retrieve Student #3 (PASS)",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 200\", function () {",
-						"    pm.response.to.have.status(200)",
-						"});",
-						"",
-						"pm.test(\"Response should be okay to process\", function () {",
-						"    pm.response.to.not.be.error;",
-						"    pm.response.to.not.have.jsonBody(\"error\");",
-						"});",
-						"",
-						"pm.test(\"response must be valid and have a body\", function () {",
-						"     pm.response.to.be.ok;",
-						"     pm.response.to.be.withBody;",
-						"     pm.response.to.be.json;",
-						"});",
-						"",
-						"pm.test(\"Content-Type header is application/json\", () => {",
-						"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
-						"});",
-						"",
-						"pm.test(\"validate json response body type\", function () {",
-						"    const jsonData = pm.response.json();",
-						"",
-						"    pm.expect(jsonData).to.be.an(\"object\");",
-						"});",
-						"",
-						"pm.test(\"validate json response body\", function () {",
-						"    const jsonData = pm.response.json();",
-						"",
-						"    pm.expect(jsonData).to.deep.include({",
-						"        \"student_id\": \"3\",",
-						"        \"name\": \"Tee Yong Teng\",",
-						"        \"date_of_birth\": \"912441600000\",",
-						"        \"address\": \"BLK666A Punggol\",",
-						"        \"phone_number\": \"6533333333\"",
-						"    });",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 200\", function () {",
+							"    pm.response.to.have.status(200)",
+							"});",
+							"",
+							"pm.test(\"Response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     pm.response.to.be.ok;",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Content-Type header is application/json\", () => {",
+							"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+							"});",
+							"",
+							"pm.test(\"validate json response body type\", function () {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData).to.be.an(\"object\");",
+							"});",
+							"",
+							"pm.test(\"validate json response body\", function () {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    pm.expect(jsonData).to.deep.include({",
+							"        \"student_id\": \"3\",",
+							"        \"name\": \"Tee Yong Teng\",",
+							"        \"date_of_birth\": \"912441600000\",",
+							"        \"address\": \"BLK666A Punggol\",",
+							"        \"phone_number\": \"6533333333\"",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -263,12 +272,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/3",
+					"raw": "http://localhost:9210/server/api/v1/students/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -282,17 +291,19 @@
 		},
 		{
 			"name": "Retrieve Student #4 (FAILING)",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 404\", function () {",
-						"    pm.response.to.have.status(404)",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 404\", function () {",
+							"    pm.response.to.have.status(404)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -304,12 +315,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/4",
+					"raw": "http://localhost:9210/server/api/v1/students/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -323,17 +334,19 @@
 		},
 		{
 			"name": "Retrieve Student #5 (FAILING) Copy",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 404\", function () {",
-						"    pm.response.to.have.status(404)",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 404\", function () {",
+							"    pm.response.to.have.status(404)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -345,12 +358,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/5",
+					"raw": "http://localhost:9210/server/api/v1/students/5",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -364,26 +377,28 @@
 		},
 		{
 			"name": "Create Student #1 (PASS)",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 201 after successful creation\", function () {",
-						"    pm.response.to.have.status(201)",
-						"});",
-						"",
-						"pm.test(\"Response should be okay to process\", function () {",
-						"    pm.response.to.not.be.error;",
-						"    pm.response.to.not.have.jsonBody(\"error\");",
-						"});",
-						"",
-						"pm.test(\"response must be valid and have a body\", function () {",
-						"     pm.response.to.be.withBody;",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 201 after successful creation\", function () {",
+							"    pm.response.to.have.status(201)",
+							"});",
+							"",
+							"pm.test(\"Response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -397,12 +412,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/4",
+					"raw": "http://localhost:9210/server/api/v1/students/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -416,21 +431,23 @@
 		},
 		{
 			"name": "Create Student #2 (FAILING)",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 409\", function () {",
-						"    pm.response.to.have.status(409)",
-						"});",
-						"",
-						"pm.test(\"response must be valid and have a body\", function () {",
-						"     pm.response.to.be.withBody;",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 409\", function () {",
+							"    pm.response.to.have.status(409)",
+							"});",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -444,12 +461,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/4",
+					"raw": "http://localhost:9210/server/api/v1/students/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -463,26 +480,28 @@
 		},
 		{
 			"name": "Update Student #1 (PASS)",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 202 after successful update\", function () {",
-						"    pm.response.to.have.status(202)",
-						"});",
-						"",
-						"pm.test(\"Response should be okay to process\", function () {",
-						"    pm.response.to.not.be.error;",
-						"    pm.response.to.not.have.jsonBody(\"error\");",
-						"});",
-						"",
-						"pm.test(\"response must be valid and have a body\", function () {",
-						"     pm.response.to.be.withBody;",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 202 after successful update\", function () {",
+							"    pm.response.to.have.status(202)",
+							"});",
+							"",
+							"pm.test(\"Response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -496,12 +515,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/4",
+					"raw": "http://localhost:9210/server/api/v1/students/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",
@@ -515,21 +534,23 @@
 		},
 		{
 			"name": "Update Student #2 (FAILING)",
-			"event": [{
-				"listen": "test",
-				"script": {
-					"exec": [
-						"pm.test(\"Test Status 422\", function () {",
-						"    pm.response.to.have.status(422)",
-						"});",
-						"",
-						"pm.test(\"response must be valid and have a body\", function () {",
-						"     pm.response.to.be.withBody;",
-						"});"
-					],
-					"type": "text/javascript"
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test Status 422\", function () {",
+							"    pm.response.to.have.status(422)",
+							"});",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     pm.response.to.be.withBody;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
 				}
-			}],
+			],
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -543,12 +564,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:80/server/api/v1/students/4",
+					"raw": "http://localhost:9210/server/api/v1/students/4",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "80",
+					"port": "9210",
 					"path": [
 						"server",
 						"api",

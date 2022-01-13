@@ -24,7 +24,7 @@ services:
       - sub-etha
   
   student_backend:
-    container_name: student_microservice
+    container_name: edufi_student_backend
     # Configuration for building the docker image for the service
     build:
       context: ./backend/students/server/ # Use an image built from the specified dockerfile in the current directory.
@@ -37,7 +37,9 @@ services:
       APP_DB_PASSWORD: 'password'
     expose:
       # Opens port 8080 on the container
-      - '8080'
+      - '9211'
+    ports:
+      - 9211:9211
     volumes:
       - ./backend/students/server:/code
     restart: always
@@ -47,7 +49,7 @@ services:
       - sub-etha
 
   student_acl:
-    container_name: student_acl_server
+    container_name: edufi_student_acl_server
     build:
       context: ./backend/students/acl/
       target: production
@@ -102,7 +104,7 @@ services:
       context: backend/proxy
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 9210:9210
     depends_on: 
       - general_server
       - frontend
