@@ -10,7 +10,7 @@
 
 ## Usage
 
-### On Docker-Compose
+### Development
 
 ```bash
 docker-compose pull
@@ -20,6 +20,13 @@ docker-compose up
 **The SQL setup script will be executed automatically at build time.**
 
 Finally, open http://localhost:9210 for the frontend client.
+
+### Run in Production Mode
+
+```bash
+docker-compose -f docker-compose.prod.yml pull
+docker-compose -f docker-compose.prod.yml up
+```
 
 ## Architecture Diagram
 
