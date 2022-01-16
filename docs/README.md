@@ -1,6 +1,6 @@
 # EduFi Student API Documentation
 
-**Base URL: http://localhost:80/server/**
+**Base URL: http://10.31.11.12:9211**
 
 # Data Structures
 
@@ -21,7 +21,7 @@ It retrieves the students based on the request body parameters (if there is any)
 ### Endpoint URL
 
 ```bash
-http://localhost:80/server/api/v1/students/
+http://10.31.11.12:9211/api/v1/students/
 ```
 
 ### JSON Body Paremeters
@@ -72,7 +72,7 @@ It retrieves the student associated with the supplied studentid. A studentID mus
 ### Endpoint URL
 
 ```bash
-http://localhost:80/server/api/v1/students/1
+http://10.31.11.12:9211/api/v1/students/1
 ```
 
 ### Response
@@ -98,7 +98,7 @@ It creates a student in MySQL database by specific studentid. Information such a
 ### Endpoint URL
 
 ```bash
-http://localhost:80/server/api/v1/students/4
+http://10.31.11.12:9211/api/v1/students/4
 ```
 
 ### JSON Body Paremeters
@@ -145,7 +145,7 @@ It is either used for creating or updating the student depends whether the stude
 ### Endpoint URL
 
 ```bash
-http://localhost:80/server/api/v1/students/4
+http://10.31.11.12:9211/api/v1/students/4
 ```
 
 ### JSON Body Paremeters (for update)
