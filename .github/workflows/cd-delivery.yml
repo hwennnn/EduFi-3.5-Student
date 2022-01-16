@@ -1,4 +1,4 @@
-name: EduFi CD for Delivery
+name: Continuous Delivery
 
 on:
   push:

@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.3"
 services:
   student_db:
     container_name: edufi_student_db
