@@ -3,9 +3,7 @@ services:
   student_db:
     container_name: edufi_student_db
     # We use a mariadb image which supports both amd64 & arm64 architecture
-    build:
-      context: ./backend/students/database/ # Use an image built from the specified dockerfile in the current directory.
-      dockerfile: Dockerfile
+    image: hwendev/edufi_student_db:latest
     restart: always
     environment:
       MYSQL_DATABASE: 'Edufi_Student'
@@ -16,7 +14,7 @@ services:
     ports:
       # <Port exposed> : < MySQL Port running inside container>
       - '3307:3306'
-    expose:
+    expose: 
       # Opens port 3306 on the container
       - '3306'
       # Where our data will be persisted
@@ -26,9 +24,7 @@ services:
   student_backend:
     container_name: edufi_student_backend
     # Configuration for building the docker image for the service
-    build:
-      context: ./backend/students/server/ # Use an image built from the specified dockerfile in the current directory.
-      dockerfile: Dockerfile
+    image: hwendev/edufi_student_backend:latest
     environment:
       APP_DB_CONTAINER_NAME: 'student_db'
       APP_DB_NAME: 'Edufi_Student'
@@ -40,8 +36,6 @@ services:
       - '9211'
     ports:
       - 9211:9211
-    volumes:
-      - ./backend/students/server:/code
     restart: always
     depends_on:
       - student_db
@@ -50,13 +44,7 @@ services:
 
   student_acl:
     container_name: edufi_student_acl_server
-    build:
-      context: ./backend/students/acl/
-      target: production
-    volumes:
-      - ./backend/students/acl/:/app
-      - /app/node_modules
-    command: npm run start
+    image: hwendev/edufi_student_acl:latest
     expose:
       # Opens port 4000 on the container
       - '4000'
@@ -67,12 +55,7 @@ services:
   
   general_server:
     container_name: edufi_general_purpose_server
-    build:
-      context: ./server/
-      target: production
-    volumes:
-      - ./server/:/app
-      - /app/node_modules
+    image: hwendev/edufi_general_server:latest
     expose:
       # Opens port 5000 on the container
       - '5000'
@@ -83,13 +66,7 @@ services:
 
   frontend:
     container_name: edufi_web_frontend
-    build:
-      context: ./frontend/
-      dockerfile: Dockerfile.dev
-      target: dev
-    volumes:
-      - ./frontend/:/app
-      - /app/node_modules
+    image: hwendev/edufi_web_frontend:latest
     expose:
       # Opens port 3000 on the container
       - '3000'
@@ -101,9 +78,7 @@ services:
 
   proxy:
     container_name: edufi_proxy
-    build: 
-      context: backend/proxy
-      dockerfile: Dockerfile
+    image: hwendev/edufi_proxy:latest
     ports:
       - 9210:9210
     depends_on: 
@@ -111,9 +86,6 @@ services:
       - frontend
     networks:
       - sub-etha
-
-volumes:
-  node_modules:
 
 networks:
   sub-etha:
