@@ -126,7 +126,6 @@ jobs:
           push: true
           tags: |
             hwendev/edufi_student_db:latest
-            ghcr.io/hwennnn/edufi_student_db:latest
 
       - name: Build and push Edufi Student REST API
         uses: docker/build-push-action@v2
@@ -136,7 +135,6 @@ jobs:
           push: true
           tags: |
             hwendev/edufi_student_backend:latest
-            ghcr.io/hwennnn/edufi_student_backend:latest
 
       - name: Build and push Edufi General Server
         uses: docker/build-push-action@v2
@@ -144,9 +142,9 @@ jobs:
           context: ./server/
           platforms: linux/amd64,linux/arm64
           push: true
+          target: production
           tags: |
             hwendev/edufi_general_server:latest
-            ghcr.io/hwennnn/edufi_general_server:latest
       
       - name: Build and push Edufi Proxy
         uses: docker/build-push-action@v2
@@ -156,7 +154,6 @@ jobs:
           push: true
           tags: |
             hwendev/edufi_proxy:latest
-            ghcr.io/hwennnn/edufi_proxy:latest
 
       - name: Build and push Edufi Student ACL
         uses: docker/build-push-action@v2
@@ -164,9 +161,9 @@ jobs:
           context: ./backend/students/acl/
           platforms: linux/amd64,linux/arm64
           push: true
+          target: production
           tags: |
             hwendev/edufi_student_acl:latest
-            ghcr.io/hwennnn/edufi_student_acl:latest
       
       - name: Build and push Edufi Web Frontend
         uses: docker/build-push-action@v2
@@ -174,9 +171,9 @@ jobs:
           context: ./frontend/
           platforms: linux/amd64,linux/arm64
           push: true
+          target: production
           tags: |
             hwendev/edufi_web_frontend:latest
-            ghcr.io/hwennnn/edufi_web_frontend:latest
               
       - if: ${{failure()}}       
         name: Create Issues
