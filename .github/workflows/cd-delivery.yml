@@ -12,8 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build the stack
-        run: docker-compose up -d
+      - name: Build the stack (production mode)
+        run: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build:
   
       - name: Install Node
         uses: actions/setup-node@v1
