@@ -89,7 +89,7 @@ jobs:
           labels: worflow-failed
           body: Workflow failed for commit ${{github.sha}} @ ${{github.ref}}  
   
-  push-docker-images:
+  push-images-to-dockerhub:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -110,13 +110,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1 
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Edufi Student DB
         uses: docker/build-push-action@v2
@@ -178,7 +171,96 @@ jobs:
         name: Create Issues
         uses: nashmaniac/create-issue-action@v1.1
         with:
-            title: Actions Failed for CD when pushing docker images
+            title: Actions Failed for CD when pushing docker images to Dockerhub
+            token: ${{secrets.GITHUB_TOKEN}}
+            assignees: ${{github.actor}}
+            labels: worflow-failed
+            body: Workflow failed for commit ${{github.sha}} @ ${{github.ref}}  
+
+  push-images-to-github:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Install Build Essentials
+        run: sudo apt-get install build-essential python-dev gcc
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Edufi Student DB
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend/students/database/
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/hwennnn/edufi_student_db:latest
+
+      - name: Build and push Edufi Student REST API
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend/students/server/
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ghcr.io/hwennnn/edufi_student_backend:latest
+
+      - name: Build and push Edufi General Server
+        uses: docker/build-push-action@v2
+        with:
+          context: ./server/
+          platforms: linux/amd64,linux/arm64
+          push: true
+          target: production
+          tags: |
+            ghcr.io/hwennnn/edufi_general_server:latest
+      
+      - name: Build and push Edufi Proxy
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend/proxy/
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/hwennnn/edufi_proxy:latest
+
+      - name: Build and push Edufi Student ACL
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend/students/acl/
+          platforms: linux/amd64,linux/arm64
+          push: true
+          target: production
+          tags: |
+            ghcr.io/hwennnn/edufi_student_acl:latest
+      
+      - name: Build and push Edufi Web Frontend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./frontend/
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/hwennnn/edufi_web_frontend:latest
+              
+      - if: ${{failure()}}       
+        name: Create Issues
+        uses: nashmaniac/create-issue-action@v1.1
+        with:
+            title: Actions Failed for CD when pushing docker images to Github
             token: ${{secrets.GITHUB_TOKEN}}
             assignees: ${{github.actor}}
             labels: worflow-failed
