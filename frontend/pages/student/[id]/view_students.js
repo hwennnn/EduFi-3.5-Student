@@ -28,7 +28,7 @@ export async function getStaticPaths() {
     }
 }
 
-export default function ViewStudent({ student_id, students }) {
+export default function ViewStudents({ student_id, students }) {
 
     function backToStudentHome() {
         Router.push(`/student/${student_id}`)

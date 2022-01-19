@@ -27,6 +27,7 @@ export default function StudentHome({ student_id, name }) {
     let viewParticularsLink = `${student_id}/view`
     let updateParticulasLink = `${student_id}/edit`;
     let viewAllStudentsWithRatingsLink = `${student_id}/view_students`;
+    let searchOtherStudentsLink = `${student_id}/search`;
 
 
     return (
@@ -87,7 +88,7 @@ export default function StudentHome({ student_id, name }) {
                         </a>
                     </Link>
 
-                    <Link href="">
+                    <Link href={searchOtherStudentsLink}>
                         <a className={styles.card}>
                             <h2>Search for other students &rarr;</h2>
                             <p>Search for other students and view their profile, modules, timetable, ratings, and comments.</p>
