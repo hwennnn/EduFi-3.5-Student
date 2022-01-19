@@ -26,6 +26,8 @@ export async function getStaticPaths() {
 export default function StudentHome({ student_id, name }) {
     let viewParticularsLink = `${student_id}/view`
     let updateParticulasLink = `${student_id}/edit`;
+    let viewAllStudentsWithRatingsLink = `${student_id}/view_students`;
+
 
     return (
         <div className={styles.container}>
@@ -78,7 +80,7 @@ export default function StudentHome({ student_id, name }) {
                         </a>
                     </Link>
 
-                    <Link href="">
+                    <Link href={viewAllStudentsWithRatingsLink}>
                         <a className={styles.card}>
                             <h2>List all students with ratings &rarr;</h2>
                             <p>List all students with ratings.</p>
