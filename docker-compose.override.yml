@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  student_acl:
+    volumes:
+      - ./backend/students/acl/:/app
+      - /app/node_modules
+    build:
+      target: dev
+  
+  general_server:
+    volumes:
+      - ./server/:/app
+      - /app/node_modules
+    build:
+      target: dev
+
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+      target: dev
+    volumes:
+      - ./frontend/:/app
+      - /app/node_modules
+
+networks:
+  sub-etha:

@@ -24,8 +24,8 @@ Finally, open http://localhost:9210 for the frontend client.
 ### Run in Production Mode
 
 ```bash
-docker-compose -f docker-compose.prod.yml pull
-docker-compose -f docker-compose.prod.yml up
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
 ```
 
 ## Architecture Diagram

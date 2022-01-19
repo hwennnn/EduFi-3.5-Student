@@ -1,88 +1,16 @@
-version: "3.3"
+version: "3.9"
 services:
-  student_db:
-    container_name: edufi_student_db
-    # We use a mariadb image which supports both amd64 & arm64 architecture
-    image: hwendev/edufi_student_db:latest
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'Edufi_Student'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      # Password for root access
-      MYSQL_ROOT_PASSWORD: 'password'
-    expose: 
-      # Opens port 3306 on the container
-      - '3306'
-      # Where our data will be persisted
-    networks:
-      - sub-etha
-  
-  student_backend:
-    container_name: edufi_student_backend
-    # Configuration for building the docker image for the service
-    image: hwendev/edufi_student_backend:latest
-    environment:
-      APP_DB_CONTAINER_NAME: 'student_db'
-      APP_DB_NAME: 'Edufi_Student'
-      APP_DB_PORT: '3306'
-      APP_DB_USERNAME: 'user'
-      APP_DB_PASSWORD: 'password'
-    expose:
-      # Opens port 8080 on the container
-      - '9211'
-    ports:
-      - 9211:9211
-    restart: always
-    depends_on:
-      - student_db
-    networks:
-      - sub-etha
-
   student_acl:
-    container_name: edufi_student_acl_server
-    image: hwendev/edufi_student_acl:latest
-    expose:
-      # Opens port 4000 on the container
-      - '4000'
-    depends_on:
-      - student_backend
-    networks:
-      - sub-etha
+    build:
+      target: production
   
   general_server:
-    container_name: edufi_general_purpose_server
-    image: hwendev/edufi_general_server:latest
-    expose:
-      # Opens port 5000 on the container
-      - '5000'
-    depends_on:
-      - student_backend
-    networks:
-      - sub-etha
+    build:
+      target: production
 
   frontend:
-    container_name: edufi_web_frontend
-    image: hwendev/edufi_web_frontend:latest
-    expose:
-      # Opens port 3000 on the container
-      - '3000'
-    depends_on:
-      - general_server
-    networks:
-      - sub-etha  
-
-
-  proxy:
-    container_name: edufi_proxy
-    image: hwendev/edufi_proxy:latest
-    ports:
-      - 9210:9210
-    depends_on: 
-      - general_server
-      - frontend
-    networks:
-      - sub-etha
+    build:
+      dockerfile: Dockerfile
 
 networks:
   sub-etha:
