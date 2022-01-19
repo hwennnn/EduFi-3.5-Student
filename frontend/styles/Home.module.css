@@ -103,3 +103,9 @@
 .blueColor {
   color: #0070f3;
 }
+
+.solidBorder {
+  border-radius: 10px;
+  border: 2px solid grey;
+  padding: 10px;
+}

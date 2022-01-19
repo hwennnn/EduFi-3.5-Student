@@ -46,7 +46,7 @@ export default function StudentHome({ student_id, name }) {
                     <Link href={viewParticularsLink}>
                         <a className={styles.card}>
                             <h2>View Particulars &rarr;</h2>
-                            <p>View the student's name, date of birth, address and phone number.</p>
+                            <p>View the student's identification number, name, date of birth, address and phone number.</p>
                         </a>
                     </Link>
 
