@@ -6,9 +6,8 @@ import Head from 'next/head'
 import Router from 'next/router';
 import { formatDateStringFromMs } from '../../../utils/date-utils';
 
-
-export async function getStaticProps({ params }) {
-    const student_id = params.id
+export async function getServerSideProps({ query }) {
+    const student_id = query.id
     const students = (await getStudents()).filter((student) => student.student_id != student_id);
 
     return {
@@ -16,15 +15,6 @@ export async function getStaticProps({ params }) {
             student_id,
             students
         }
-    }
-}
-
-export async function getStaticPaths() {
-    const paths = await getStaticPathForStudents();
-
-    return {
-        paths,
-        fallback: false
     }
 }
 

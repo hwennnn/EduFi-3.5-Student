@@ -6,24 +6,14 @@ import Head from 'next/head'
 import Router from 'next/router';
 import { formatDateStringFromMs } from '../../../utils/date-utils';
 
-
-export async function getStaticProps({ params }) {
-    const studentID = params.id
-    const student = await getStudent(studentID, false);
+export async function getServerSideProps({ query }) {
+    const studentID = query.id
+    const student = await getStudent(studentID);
 
     return {
         props: {
             ...student
         }
-    }
-}
-
-export async function getStaticPaths() {
-    const paths = await getStaticPathForStudents();
-
-    return {
-        paths,
-        fallback: false
     }
 }
 

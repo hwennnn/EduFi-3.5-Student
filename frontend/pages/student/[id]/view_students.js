@@ -1,4 +1,4 @@
-import { getStaticPathForStudents, getStudents } from '../../../utils/student-utils';
+import { getStudents } from '../../../utils/student-utils';
 import React from 'react'
 import { Button, Table } from 'semantic-ui-react'
 import styles from '../../../styles/Home.module.css'
@@ -7,8 +7,8 @@ import Router from 'next/router';
 import { formatDateStringFromMs } from '../../../utils/date-utils';
 
 
-export async function getStaticProps({ params }) {
-    const student_id = params.id
+export async function getServerSideProps({ query }) {
+    const student_id = query.id
     const students = await getStudents();
 
     return {
@@ -16,15 +16,6 @@ export async function getStaticProps({ params }) {
             student_id,
             students
         }
-    }
-}
-
-export async function getStaticPaths() {
-    const paths = await getStaticPathForStudents();
-
-    return {
-        paths,
-        fallback: false
     }
 }
 

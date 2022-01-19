@@ -1,25 +1,16 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../../../styles/Home.module.css'
-import { getStaticPathForStudents, getStudent } from '../../../utils/student-utils';
+import { getStudent } from '../../../utils/student-utils';
 
-export async function getStaticProps({ params }) {
-    const studentID = params.id
+export async function getServerSideProps({ query }) {
+    const studentID = query.id
     const student = await getStudent(studentID);
 
     return {
         props: {
             ...student
         }
-    }
-}
-
-export async function getStaticPaths() {
-    const paths = await getStaticPathForStudents();
-
-    return {
-        paths,
-        fallback: false
     }
 }
 
