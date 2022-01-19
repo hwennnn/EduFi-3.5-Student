@@ -1,4 +1,4 @@
-name: "CI: EduFi Integration Testing"
+name: "CI: Integration Testing"
 
 on:
   push:
