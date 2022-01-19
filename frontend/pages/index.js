@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -14,6 +15,24 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to EduFi!
         </h1>
+
+        <div className={styles.grid}>
+
+          <Link href='/login/student'>
+            <a className={styles.card}>
+              <h2>Login as a student &rarr;</h2>
+              <p>You will be prompted to enter your <span className={styles.blueColor}> student id </span> in order to login.</p>
+            </a>
+          </Link>
+
+          <Link href='/login/tutor'>
+            <a className={styles.card}>
+              <h2>Login as a tutor &rarr;</h2>
+              <p>You will be prompted to enter your <span className={styles.blueColor}>tutor id</span> in order to login.</p>
+            </a>
+          </Link>
+
+        </div>
 
       </main>
 
