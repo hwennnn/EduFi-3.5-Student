@@ -5,7 +5,7 @@ import { getStaticPathForStudents, getStudent } from '../../../utils/student-uti
 
 export async function getStaticProps({ params }) {
     const studentID = params.id
-    const student = await getStudent(studentID, false);
+    const student = await getStudent(studentID);
 
     return {
         props: {

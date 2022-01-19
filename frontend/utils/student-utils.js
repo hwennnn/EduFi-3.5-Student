@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { serverRequestBaseUrl, requestConfig, clientRequestBaseUrl } from './globals';
+import { serverRequestBaseUrl, clientRequestBaseUrl } from './globals';
 
 export async function getStaticPathForStudents() {
-    const response = await axios.get(`${serverRequestBaseUrl}/students/`, requestConfig);
+    const response = await axios.get(`${serverRequestBaseUrl}/students`);
 
     return response.data.map((student) => {
         return {
@@ -14,14 +14,14 @@ export async function getStaticPathForStudents() {
 }
 
 export async function getStudents() {
-    const response = await axios.get(`${serverRequestBaseUrl}/students/`, requestConfig);
+    const response = await axios.get(`${serverRequestBaseUrl}/students/`);
 
     return response.data;
 }
 
 export async function isStudentExist(studentID, sentFromClientBrowser = true) {
     try {
-        const response = await axios.get(`${sentFromClientBrowser ? clientRequestBaseUrl : serverRequestBaseUrl}/students/${studentID}`, requestConfig)
+        const response = await axios.get(`${sentFromClientBrowser ? clientRequestBaseUrl : serverRequestBaseUrl}/students/${studentID}`)
         console.log(response.status)
     } catch (err) {
         return false
@@ -31,7 +31,7 @@ export async function isStudentExist(studentID, sentFromClientBrowser = true) {
 }
 
 export async function getStudent(studentID) {
-    const response = await axios.get(`${serverRequestBaseUrl}/students/${studentID}`, requestConfig)
+    const response = await axios.get(`${serverRequestBaseUrl}/students/${studentID}`)
 
     return response.data
 }

@@ -5,13 +5,13 @@ import styles from '../../../styles/Home.module.css'
 import Head from 'next/head'
 import Router from 'next/router';
 import axios from 'axios';
-import { clientRequestBaseUrl, requestConfig } from '../../../utils/globals';
+import { clientRequestBaseUrl } from '../../../utils/globals';
 import { formatDateStringFromMs } from '../../../utils/date-utils';
 
 
 export async function getStaticProps({ params }) {
     const studentID = params.id
-    const student = await getStudent(studentID, false);
+    const student = await getStudent(studentID);
 
     return {
         props: {
@@ -46,10 +46,9 @@ export default function EditStudent({ student_id, name, phone_number, address, d
                 "date_of_birth": dateOfBirth,
             }
             try {
-                let response = await axios.put(`${clientRequestBaseUrl}/students/${student_id}`, body, requestConfig);
+                let response = await axios.put(`${clientRequestBaseUrl}/students/${student_id}`, body);
 
                 if (response.status == 202) {
-                    console.log(response.data)
                     Router.push(`/student/${student_id}`)
                 } else {
                     alert(response.data)
