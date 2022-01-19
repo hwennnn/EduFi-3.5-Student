@@ -29,14 +29,14 @@ export async function getStaticPaths() {
     }
 }
 
-export default function EditDriver({ student_id, name, phone_number, address, date_of_birth }) {
+export default function EditStudent({ student_id, name, phone_number, address, date_of_birth }) {
     const [Name, setName] = useState(name)
     const [phoneNumber, setPhoneNumber] = useState(phone_number)
     const [Address, setAddress] = useState(address)
     const [dateOfBirth, setDateOfBirth] = useState(date_of_birth)
 
 
-    async function updateAsDriver() {
+    async function updateAsStudent() {
         if (Name != '' && phoneNumber != '' && Address != '' && dateOfBirth != '') {
             var body = {
                 "student_id": student_id,
@@ -101,7 +101,7 @@ export default function EditDriver({ student_id, name, phone_number, address, da
                     </Form.Field>
                 </Form.Group>
 
-                <Button onClick={updateAsDriver} type='submit'>Submit</Button>
+                <Button onClick={updateAsStudent} type='submit'>Submit</Button>
             </Form>
 
             <br />

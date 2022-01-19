@@ -23,7 +23,7 @@ export async function getStaticPaths() {
     }
 }
 
-export default function DriverHome({ student_id, name }) {
+export default function StudentHome({ student_id, name }) {
     let viewParticularsLink = `${student_id}/view`
     let updateParticulasLink = `${student_id}/edit`;
 
