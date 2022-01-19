@@ -1,15 +1,16 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../../../styles/Home.module.css'
-import { getStaticPathForStudents, getStudent } from '../../../utils/student-utils';
+import { getStaticPathForStudents, getStudents } from '../../../utils/student-utils';
 
 export async function getStaticProps({ params }) {
     const studentID = params.id
-    const student = await getStudent(studentID, false);
+    const students = await getStudents();
 
     return {
         props: {
-            ...student
+            studentID,
+            students
         }
     }
 }
@@ -23,7 +24,7 @@ export async function getStaticPaths() {
     }
 }
 
-export default function StudentHome({ student_id, name }) {
+export default function SearchStudent({ student_id, name }) {
     let viewParticularsLink = `${student_id}/view`
     let updateParticulasLink = `${student_id}/edit`;
 
@@ -54,41 +55,6 @@ export default function StudentHome({ student_id, name }) {
                         <a className={styles.card}>
                             <h2>Update Particulars &rarr;</h2>
                             <p>Edit the student's particulars including name, date of birth, address and phone number.</p>
-                        </a>
-                    </Link>
-
-                    <Link href="">
-                        <a className={styles.card}>
-                            <h2>View modules taken &rarr;</h2>
-                            <p>View the modules taken by the student. asdadskadjsk</p>
-                        </a>
-                    </Link>
-
-                    <Link href="">
-                        <a className={styles.card}>
-                            <h2>View original results &rarr;</h2>
-                            <p>View the original result of the student.</p>
-                        </a>
-                    </Link>
-
-                    <Link href="">
-                        <a className={styles.card}>
-                            <h2>View adjusted results after marks trading &rarr;</h2>
-                            <p>View the student's adjusted results after marks trading.</p>
-                        </a>
-                    </Link>
-
-                    <Link href="">
-                        <a className={styles.card}>
-                            <h2>List all students with ratings &rarr;</h2>
-                            <p>List all students with ratings.</p>
-                        </a>
-                    </Link>
-
-                    <Link href="">
-                        <a className={styles.card}>
-                            <h2>Search for other students &rarr;</h2>
-                            <p>Search for other students and view their profile, modules, timetable, ratings, and comments.</p>
                         </a>
                     </Link>
 

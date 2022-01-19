@@ -13,6 +13,12 @@ export async function getStaticPathForStudents() {
     })
 }
 
+export async function getStudents() {
+    const response = await axios.get(`${serverRequestBaseUrl}/students/`, requestConfig);
+
+    return response.data;
+}
+
 export async function isStudentExist(studentID, sentFromClientBrowser = true) {
     try {
         const response = await axios.get(`${sentFromClientBrowser ? clientRequestBaseUrl : serverRequestBaseUrl}/students/${studentID}`, requestConfig)
