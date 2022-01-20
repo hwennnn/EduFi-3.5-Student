@@ -16,15 +16,15 @@
 docker-compose up --build
 ```
 
-**The SQL setup script will be executed automatically at build time.**
-
-Finally, open http://localhost:9210 for the frontend client.
-
 ### Run in Production Mode
 
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 ```
+
+**The SQL setup script will be executed automatically at build time.**
+
+Finally, open http://localhost:9210 for the frontend client.
 
 ## Architecture Diagram
 
