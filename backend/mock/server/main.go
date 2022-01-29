@@ -65,25 +65,25 @@ type LessonStudent struct {
 }
 
 type Rating struct {
-	RatingsID   string `json:"rating_id"`
-	CreatorID   string `json:"creator_id"`
-	CreatorType string `json:"creator_type"`
-	TargetID    string `json:"target_id"`
-	TargetType  string `json:"target_type"`
-	RatingScore string `json:"rating_score"`
-	IsAnonymous bool   `json:"is_anonymous"`
-	CreatedTime int64  `json:"created_time"`
+	RatingID    string  `json:"rating_id"`
+	CreatorID   string  `json:"creator_id"`
+	CreatorType string  `json:"creator_type"`
+	TargetID    string  `json:"target_id"`
+	TargetType  string  `json:"target_type"`
+	RatingScore float64 `json:"rating_score"`
+	IsAnonymous bool    `json:"is_anonymous"`
+	CreatedTime int64   `json:"created_time"`
 }
 
 type Comment struct {
-	CommentID   string `json:"comment_id"`
-	CreatorID   string `json:"creator_id"`
-	CreatorType string `json:"creator_type"`
-	TargetID    string `json:"target_id"`
-	TargetType  string `json:"target_type"`
-	RatingScore string `json:"rating_score"`
-	IsAnonymous bool   `json:"is_anonymouse"`
-	CreatedTime int64  `json:"created_time"`
+	CommentID   string  `json:"comment_id"`
+	CreatorID   string  `json:"creator_id"`
+	CreatorType string  `json:"creator_type"`
+	TargetID    string  `json:"target_id"`
+	TargetType  string  `json:"target_type"`
+	RatingScore float64 `json:"rating_score"`
+	IsAnonymous bool    `json:"is_anonymouse"`
+	CreatedTime int64   `json:"created_time"`
 }
 
 // this middleware will set the returned content type as application/json
@@ -377,6 +377,44 @@ func getLessonHelper(lessonID string) (bool, Lesson) {
 	return isExist, lesson
 }
 
+// This method is used to retrieve ratings from MySQL,
+// and return the result in array of rating json object
+func getRatingsForStudent(res http.ResponseWriter, req *http.Request) {
+	database := openMockDB()
+
+	params := mux.Vars(req)
+	studentID := params["studentid"]
+
+	var results []Rating
+
+	query := fmt.Sprintf("SELECT * FROM Ratings WHERE TargetID='%s' AND TargetType='Student'", studentID)
+
+	databaseResults, err := database.Query(query)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for databaseResults.Next() {
+		// Map the rating object to the record in the table
+		var rating Rating
+
+		err = databaseResults.Scan(&rating.RatingID, &rating.CreatorID, &rating.CreatorType, &rating.TargetID, &rating.TargetType, &rating.RatingScore, &rating.IsAnonymous, &rating.CreatedTime)
+
+		if err != nil {
+			panic(err.Error())
+		}
+
+		results = append(results, rating)
+
+	}
+
+	// Returns all the ratings in JSON
+	json.NewEncoder(res).Encode(results)
+
+	closeMockDB(database)
+}
+
 func openMockDB() sql.DB {
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", os.Getenv("APP_DB_USERNAME"), os.Getenv("APP_DB_PASSWORD"), os.Getenv("APP_DB_CONTAINER_NAME"), os.Getenv("APP_DB_PORT"), os.Getenv("APP_DB_NAME"))
 
@@ -405,6 +443,7 @@ func main() {
 	router.HandleFunc("/api/v1/students/{studentid}/modules/", getModulesForStudent).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/results/", getResultsForStudent).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/timetable/", getTimetableForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/students/{studentid}/ratings/", getRatingsForStudent).Methods("GET")
 
 	// enable cross-origin resource sharing (cors) for all requests
 	handler := cors.AllowAll().Handler(router)
