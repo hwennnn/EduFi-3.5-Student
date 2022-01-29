@@ -56,6 +56,12 @@ type Lesson struct {
 	LessonDay string `json:"lesson_day"`
 	StartTime string `json:"start_time"`
 	EndTime   string `json:"end_time"`
+	Module    Module `json:"module"`
+}
+
+type LessonStudent struct {
+	LessonID  string `json:"lesson_id"`
+	StudentID string `json:"student_id"`
 }
 
 type Rating struct {
@@ -260,9 +266,9 @@ func getResultsForStudent(res http.ResponseWriter, req *http.Request) {
 
 	var results []Mark
 
-	queryModulesTaken := fmt.Sprintf("SELECT * FROM Marks WHERE StudentID='%s'", studentID)
+	query := fmt.Sprintf("SELECT * FROM Marks WHERE StudentID='%s'", studentID)
 
-	databaseResults, err := database.Query(queryModulesTaken)
+	databaseResults, err := database.Query(query)
 
 	if err != nil {
 		panic(err.Error())
@@ -297,6 +303,80 @@ func getResultsForStudent(res http.ResponseWriter, req *http.Request) {
 	closeMockDB(database)
 }
 
+// This method is used to retrieve timetable from MySQL,
+// and return the result in array of timetable json object
+func getTimetableForStudent(res http.ResponseWriter, req *http.Request) {
+	database := openMockDB()
+
+	params := mux.Vars(req)
+	studentID := params["studentid"]
+
+	var results []Lesson
+
+	queryLessonTaken := fmt.Sprintf("SELECT * FROM LessonStudent WHERE StudentID='%s'", studentID)
+
+	databaseResults, err := database.Query(queryLessonTaken)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for databaseResults.Next() {
+		// Map the lesson student object to the record in the table
+		var lessonStudent LessonStudent
+
+		err = databaseResults.Scan(&lessonStudent.LessonID, &lessonStudent.StudentID)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		isExist, lesson := getLessonHelper(lessonStudent.LessonID)
+
+		if isExist {
+			results = append(results, lesson)
+		}
+
+	}
+
+	// Returns all the timetables in JSON
+	json.NewEncoder(res).Encode(results)
+
+	closeMockDB(database)
+}
+
+// This helper method helps to query the lesson from the database,
+// and return (boolean, Lesson) tuple object
+func getLessonHelper(lessonID string) (bool, Lesson) {
+	database := openMockDB()
+
+	query := fmt.Sprintf("SELECT * FROM Lessons WHERE LessonID='%s'", lessonID)
+	databaseResults, err := database.Query(query)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var isExist bool
+	var lesson Lesson
+	for databaseResults.Next() {
+		err = databaseResults.Scan(&lesson.LessonID, &lesson.ModuleID, &lesson.LessonDay, &lesson.StartTime, &lesson.EndTime)
+
+		isModuleExist, module := getModuleHelper(lesson.ModuleID)
+
+		if isModuleExist {
+			lesson.Module = module
+		}
+
+		if err != nil {
+			panic(err.Error())
+		}
+		isExist = true
+	}
+
+	closeMockDB(database)
+
+	return isExist, lesson
+}
+
 func openMockDB() sql.DB {
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", os.Getenv("APP_DB_USERNAME"), os.Getenv("APP_DB_PASSWORD"), os.Getenv("APP_DB_CONTAINER_NAME"), os.Getenv("APP_DB_PORT"), os.Getenv("APP_DB_NAME"))
 
@@ -324,6 +404,7 @@ func main() {
 	router.HandleFunc("/api/v1/tutors/", getTutors).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/modules/", getModulesForStudent).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/results/", getResultsForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/students/{studentid}/timetable/", getTimetableForStudent).Methods("GET")
 
 	// enable cross-origin resource sharing (cors) for all requests
 	handler := cors.AllowAll().Handler(router)
