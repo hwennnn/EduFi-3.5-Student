@@ -43,10 +43,11 @@ type ModuleTutor struct {
 
 type Mark struct {
 	MarkID        string  `json:"mark_id"`
+	ModuleID      string  `json:"module_id"`
 	StudentID     string  `json:"student_id"`
-	Module        Module  `json:"module"`
 	Marks         float64 `json:"marks"`
 	AdjustedMarks float64 `json:"adjusted_marks"`
+	Module        Module  `json:"module"`
 }
 
 type Lesson struct {
@@ -249,9 +250,56 @@ func getTutorHelper(tutorID string) (bool, Tutor) {
 	return isExist, tutor
 }
 
+// This method is used to retrieve marks from MySQL,
+// and return the result in array of tutor json object
+func getResultsForStudent(res http.ResponseWriter, req *http.Request) {
+	database := openMockDB()
+
+	params := mux.Vars(req)
+	studentID := params["studentid"]
+
+	var results []Mark
+
+	queryModulesTaken := fmt.Sprintf("SELECT * FROM Marks WHERE StudentID='%s'", studentID)
+
+	databaseResults, err := database.Query(queryModulesTaken)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for databaseResults.Next() {
+		// Map the mark object to the record in the table
+		var mark Mark
+		var sqlAdjustedMarks sql.NullFloat64
+
+		err = databaseResults.Scan(&mark.MarkID, &mark.ModuleID, &mark.StudentID, &mark.Marks, &sqlAdjustedMarks)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		if sqlAdjustedMarks.Valid {
+			mark.AdjustedMarks = sqlAdjustedMarks.Float64
+		}
+
+		isExist, module := getModuleHelper(mark.ModuleID)
+
+		if isExist {
+			mark.Module = module
+		}
+
+		results = append(results, mark)
+	}
+
+	// Returns all the modules in JSON
+	json.NewEncoder(res).Encode(results)
+
+	closeMockDB(database)
+}
+
 func openMockDB() sql.DB {
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", os.Getenv("APP_DB_USERNAME"), os.Getenv("APP_DB_PASSWORD"), os.Getenv("APP_DB_CONTAINER_NAME"), os.Getenv("APP_DB_PORT"), os.Getenv("APP_DB_NAME"))
-	fmt.Println(connectionString)
+
 	// Use mysql as driverName and a valid DSN as dataSourceName:
 	database, err := sql.Open("mysql", connectionString)
 
@@ -275,6 +323,7 @@ func main() {
 
 	router.HandleFunc("/api/v1/tutors/", getTutors).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/modules/", getModulesForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/students/{studentid}/results/", getResultsForStudent).Methods("GET")
 
 	// enable cross-origin resource sharing (cors) for all requests
 	handler := cors.AllowAll().Handler(router)
