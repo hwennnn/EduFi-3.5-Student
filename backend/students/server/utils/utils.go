@@ -1,12 +1,24 @@
 package utils
 
 import (
-	"fmt"
-	"net/url"
+	"encoding/json"
 	"strings"
+
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 
 	models "students/models"
 )
+
+const serverEndpointBaseURL = "http://acl:4000/api/v1"
+
+var moduleEndpointBaseURL = fmt.Sprintf("%s/module", serverEndpointBaseURL)
+var marksEndpointBaseURL = fmt.Sprintf("%s/module", serverEndpointBaseURL)
+var timetableEndpointBaseURL = fmt.Sprintf("%s/timetable", serverEndpointBaseURL)
+var ratingsEndpointBaseURL = fmt.Sprintf("%s/ratings", serverEndpointBaseURL)
+var commentsEndpointBaseURL = fmt.Sprintf("%s/comments", serverEndpointBaseURL)
 
 // This method is to return boolean value whether the given student information is completed
 func IsStudentJsonCompleted(student models.Student) bool {
@@ -43,18 +55,122 @@ func FormmatedUpdateStudentQueryField(newStudent models.Student) string {
 	return strings.Join(fields, ", ")
 }
 
-// This method is to convert the field query from request query parameters,
-// to the sql syntax code
-func FormattedStudentQueryField(availableStatus url.Values) string {
-	var results string
+// This method will send a request to module microservice
+// in order to retrieve module information for specific studentID
+func FetchModules(studentID string) []models.Module {
+	var result []models.Module
 
-	// if len(availableStatus) > 0 && availableStatus[0] != "" {
-	// 	results += fmt.Sprintf("AvailableStatus = '%s'", availableStatus[0])
-	// }
+	url := fmt.Sprintf("%s/%s/", moduleEndpointBaseURL, studentID)
 
-	if results == "" {
-		return ""
+	// Create a new request using http
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+
+	// Send req using http Client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error on response.\n[ERROR] -", err)
 	}
+	defer resp.Body.Close()
 
-	return "WHERE " + results
+	body, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(body, &result)
+
+	return result
+}
+
+// This method will send a request to marks microservice
+// in order to retrieve mark information for specific studentID
+func FetchMarks(studentID string) []models.Mark {
+	var result []models.Mark
+
+	url := fmt.Sprintf("%s/%s/", marksEndpointBaseURL, studentID)
+
+	// Create a new request using http
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+
+	// Send req using http Client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error on response.\n[ERROR] -", err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(body, &result)
+
+	return result
+}
+
+// This method will send a request to timetable microservice
+// in order to retrieve timetable information for specific studentID
+func FetchTimetable(studentID string) []models.Lesson {
+	var result []models.Lesson
+
+	url := fmt.Sprintf("%s/%s/", timetableEndpointBaseURL, studentID)
+
+	// Create a new request using http
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+
+	// Send req using http Client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error on response.\n[ERROR] -", err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(body, &result)
+
+	return result
+}
+
+// This method will send a request to ratings microservice
+// in order to retrieve ratings information for specific studentID
+func FetchRatings(studentID string) []models.Rating {
+	var result []models.Rating
+
+	url := fmt.Sprintf("%s/%s/", ratingsEndpointBaseURL, studentID)
+
+	// Create a new request using http
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+
+	// Send req using http Client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error on response.\n[ERROR] -", err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(body, &result)
+
+	return result
+}
+
+// This method will send a request to comments microservice
+// in order to retrieve comments information for specific studentID
+func FetchComments(studentID string) []models.Comment {
+	var result []models.Comment
+
+	url := fmt.Sprintf("%s/%s/", commentsEndpointBaseURL, studentID)
+
+	// Create a new request using http
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+
+	// Send req using http Client
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error on response.\n[ERROR] -", err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(body, &result)
+
+	return result
 }

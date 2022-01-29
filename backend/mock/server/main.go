@@ -512,11 +512,11 @@ func main() {
 	router.HandleFunc("/api/v1/tutors/", getTutors).Methods("GET")
 	router.HandleFunc("/api/v1/tutors/{tutorid}/", getTutor).Methods("GET")
 
-	router.HandleFunc("/api/v1/students/{studentid}/modules/", getModulesForStudent).Methods("GET")
-	router.HandleFunc("/api/v1/students/{studentid}/results/", getResultsForStudent).Methods("GET")
-	router.HandleFunc("/api/v1/students/{studentid}/timetable/", getTimetableForStudent).Methods("GET")
-	router.HandleFunc("/api/v1/students/{studentid}/ratings/", getRatingsForStudent).Methods("GET")
-	router.HandleFunc("/api/v1/students/{studentid}/comments/", getCommentsForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/modules/{studentid}/", getModulesForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/marks/{studentid}/", getResultsForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/timetable/{studentid}/", getTimetableForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/ratings/{studentid}/", getRatingsForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/comments/{studentid}/", getCommentsForStudent).Methods("GET")
 
 	// enable cross-origin resource sharing (cors) for all requests
 	handler := cors.AllowAll().Handler(router)

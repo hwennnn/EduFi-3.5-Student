@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 
 	models "students/models"
 	utils "students/utils"
@@ -36,9 +37,7 @@ func getStudents(res http.ResponseWriter, req *http.Request) {
 
 	params := req.URL.Query()
 
-	// Customise the field query from request query parameters
-	formmatedFieldQuery := utils.FormattedStudentQueryField(params)
-	query := fmt.Sprintf("SELECT * FROM Students %s", formmatedFieldQuery)
+	query := "SELECT * FROM Students"
 
 	databaseResults, err := studentDB.Query(query)
 
@@ -53,6 +52,27 @@ func getStudents(res http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			panic(err.Error())
 		}
+
+		if len(params["modules"]) > 0 && params["modules"][0] == "true" {
+			student.Modules = utils.FetchModules(student.StudentID)
+		}
+
+		if len(params["marks"]) > 0 && params["marks"][0] == "true" {
+			student.Results = utils.FetchMarks(student.StudentID)
+		}
+
+		if len(params["timetable"]) > 0 && params["timetable"][0] == "true" {
+			student.Timetable = utils.FetchTimetable(student.StudentID)
+		}
+
+		if len(params["ratings"]) > 0 && params["ratings"][0] == "true" {
+			student.Ratings = utils.FetchRatings(student.StudentID)
+		}
+
+		if len(params["comments"]) > 0 && params["comments"][0] == "true" {
+			student.Comments = utils.FetchComments(student.StudentID)
+		}
+
 		results = append(results, student)
 	}
 
@@ -68,7 +88,9 @@ func getStudent(res http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
 	studentID := params["studentid"]
 
-	isStudentExist, student := getStudentHelper(studentID)
+	query := req.URL.Query()
+
+	isStudentExist, student := getStudentHelper(studentID, query)
 
 	if isStudentExist {
 		json.NewEncoder(res).Encode(student)
@@ -80,7 +102,7 @@ func getStudent(res http.ResponseWriter, req *http.Request) {
 
 // This helper method helps to query the student from the database,
 // and return (boolean, student) tuple object
-func getStudentHelper(studentID string) (bool, models.Student) {
+func getStudentHelper(studentID string, params url.Values) (bool, models.Student) {
 	studentDB := openStudentsDB()
 
 	query := fmt.Sprintf("SELECT * FROM Students WHERE StudentID='%s'", studentID)
@@ -96,6 +118,27 @@ func getStudentHelper(studentID string) (bool, models.Student) {
 		if err != nil {
 			panic(err.Error())
 		}
+
+		if len(params["modules"]) > 0 && params["modules"][0] == "true" {
+			student.Modules = utils.FetchModules(studentID)
+		}
+
+		if len(params["marks"]) > 0 && params["marks"][0] == "true" {
+			student.Results = utils.FetchMarks(studentID)
+		}
+
+		if len(params["timetable"]) > 0 && params["timetable"][0] == "true" {
+			student.Timetable = utils.FetchTimetable(studentID)
+		}
+
+		if len(params["ratings"]) > 0 && params["ratings"][0] == "true" {
+			student.Ratings = utils.FetchRatings(studentID)
+		}
+
+		if len(params["comments"]) > 0 && params["comments"][0] == "true" {
+			student.Comments = utils.FetchComments(studentID)
+		}
+
 		isExist = true
 	}
 
@@ -137,7 +180,7 @@ func postStudent(res http.ResponseWriter, req *http.Request) {
 		}
 
 		// check if student exists; add only if student does not exist
-		isStudentExist, _ := getStudentHelper(studentID)
+		isStudentExist, _ := getStudentHelper(studentID, map[string][]string{})
 
 		if !isStudentExist {
 			query := fmt.Sprintf("INSERT INTO Students VALUES ('%s', '%s', '%s', '%s', '%s')", newStudent.StudentID, newStudent.Name, newStudent.DateOfBirth, newStudent.Address, newStudent.PhoneNumber)
@@ -185,7 +228,7 @@ func putStudent(res http.ResponseWriter, req *http.Request) {
 		}
 
 		// check if student exists; add only if student does not exist, else update
-		isStudentExist, _ := getStudentHelper(studentID)
+		isStudentExist, _ := getStudentHelper(studentID, map[string][]string{})
 
 		if !isStudentExist {
 			if !utils.IsStudentJsonCompleted(newStudent) {
