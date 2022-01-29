@@ -9,7 +9,6 @@ import Router from 'next/router';
 export async function getServerSideProps({ query }) {
     const student_id = query.id
     const modules = await getModules(student_id);
-    console.log(modules)
 
     return {
         props: {

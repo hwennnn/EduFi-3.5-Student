@@ -37,8 +37,13 @@ export async function getStudent(studentID) {
 }
 
 export async function getModules(studentID) {
-    console.log(`${mockServerBaseUrl}/api/v1/students/${studentID}/modules/`)
     const response = await axios.get(`${mockServerBaseUrl}/students/${studentID}/modules/`);
+
+    return response.data;
+}
+
+export async function getResults(studentID) {
+    const response = await axios.get(`${mockServerBaseUrl}/students/${studentID}/results/`);
 
     return response.data;
 }
