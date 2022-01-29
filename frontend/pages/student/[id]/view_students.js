@@ -4,7 +4,7 @@ import { Button, Table } from 'semantic-ui-react'
 import styles from '../../../styles/Home.module.css'
 import Head from 'next/head'
 import Router from 'next/router';
-import { formatDateStringFromMs } from '../../../utils/date-utils';
+import { formatDateStringFromMs, formatDateTimeStringFromMs } from '../../../utils/date-utils';
 
 
 export async function getServerSideProps({ query }) {
@@ -27,7 +27,7 @@ export default function ViewStudents({ student_id, students }) {
 
     function formatRatingsDetails(ratings) {
         // sort the created time in descending order
-        ratings.sort((second, first) => first.created_time - second.created_time)
+        ratings.sort((second, first) => parseInt(first.created_time) - parseInt(second.created_time))
 
         let result = []
         let index = 1
@@ -35,7 +35,7 @@ export default function ViewStudents({ student_id, students }) {
         for (const rating of ratings) {
             let senderName = rating.is_anonymous ? 'Anonymous User' : `${rating.creator_type} #${rating.creator_id}`
 
-            result.push(`${index}. ${senderName} gave ${rating.rating_score} ratings at ${formatDateStringFromMs(rating.created_time)}.`)
+            result.push(`${index}. ${senderName} gave ${rating.rating_score} ratings at ${formatDateTimeStringFromMs(parseInt(rating.created_time))}.`)
             ++index
         }
 

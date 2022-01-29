@@ -72,7 +72,7 @@ type Rating struct {
 	TargetType  string  `json:"target_type"`
 	RatingScore float64 `json:"rating_score"`
 	IsAnonymous bool    `json:"is_anonymous"`
-	CreatedTime int64   `json:"created_time"`
+	CreatedTime string  `json:"created_time"`
 }
 
 type Comment struct {
@@ -83,7 +83,7 @@ type Comment struct {
 	TargetType  string `json:"target_type"`
 	CommentData string `json:"comment_data"`
 	IsAnonymous bool   `json:"is_anonymouse"`
-	CreatedTime int64  `json:"created_time"`
+	CreatedTime string `json:"created_time"`
 }
 
 // this middleware will set the returned content type as application/json

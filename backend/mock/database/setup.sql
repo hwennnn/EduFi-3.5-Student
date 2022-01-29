@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS Tutors
 );
 
 -- Insert Tutor Data
-INSERT IGNORE INTO Tutors (TutorID, FirstName, LastName, Email, Descriptions) VALUES ('1', 'Wen Qiang', 'Wesley Teo', 'wesleytwq@gmail.com', 'This is the description for Tutor --1');
-INSERT IGNORE INTO Tutors (TutorID, FirstName, LastName, Email, Descriptions) VALUES ('2', 'Kheng Hian', 'Low', 'lowkh@gmail.com', 'This is the description for Tutor --2');
+INSERT IGNORE INTO Tutors (TutorID, FirstName, LastName, Email, Descriptions) VALUES ('1', 'Wen Qiang', 'Wesley Teo', 'wesleytwq@gmail.com', 'This is the description for Tutor #1');
+INSERT IGNORE INTO Tutors (TutorID, FirstName, LastName, Email, Descriptions) VALUES ('2', 'Kheng Hian', 'Low', 'lowkh@gmail.com', 'This is the description for Tutor #2');
 
 
 -- Create Modules Table
@@ -121,23 +121,23 @@ CREATE TABLE IF NOT EXISTS Ratings(
     TargetType VARCHAR(255) NOT NULL,
 	RatingScore FLOAT NOT NULL,
     IsAnonymous tinyint(1) NOT NULL,
-    CreatedTime int(64) NOT NULL,
+    CreatedTime VARCHAR(30) NOT NULL,
 
     CONSTRAINT PK_Rating PRIMARY KEY (RatingID)
 );
 
 -- Insert Rating Data
 INSERT IGNORE INTO Ratings (RatingID, CreatorID, CreatorType, TargetID, TargetType, RatingScore, IsAnonymous, CreatedTime) 
-VALUES("1", "2", "Student", "1", "Student", 4.0, 0, 1643440926037);
+VALUES("1", "2", "Student", "1", "Student", 4.0, 0, "1643440926037");
 
 INSERT IGNORE INTO Ratings (RatingID, CreatorID, CreatorType, TargetID, TargetType, RatingScore, IsAnonymous, CreatedTime) 
-VALUES("2", "2", "Student", "3", "Student", 5.0, 0, 1643440925433);
+VALUES("2", "2", "Student", "3", "Student", 5.0, 0, "1643440925433");
 
 INSERT IGNORE INTO Ratings (RatingID, CreatorID, CreatorType, TargetID, TargetType, RatingScore, IsAnonymous, CreatedTime) 
-VALUES("3", "1", "Student", "2", "Student", 4.5, 0, 1643550926037);
+VALUES("3", "1", "Student", "2", "Student", 4.5, 0, "1643550926037");
 
 INSERT IGNORE INTO Ratings (RatingID, CreatorID, CreatorType, TargetID, TargetType, RatingScore, IsAnonymous, CreatedTime) 
-VALUES("4", "3", "Student", "1", "Student", 3.0, 1, 1643446626037);
+VALUES("4", "3", "Student", "1", "Student", 3.0, 1, "1643446626037");
 
 
 -- Create Comments Table
@@ -149,20 +149,20 @@ CREATE TABLE IF NOT EXISTS Comments(
     TargetType VARCHAR(255) NOT NULL,
 	CommentData VARCHAR(500) NOT NULL,
     IsAnonymous tinyint(1) NOT NULL,
-    CreatedTime int(64) NOT NULL,
+    CreatedTime VARCHAR(30) NOT NULL,
 
     CONSTRAINT PK_Comment PRIMARY KEY (CommentID)
 );
 
 -- Insert Comment Data
 INSERT IGNORE INTO Comments (CommentID, CreatorID, CreatorType, TargetID, TargetType, CommentData, IsAnonymous, CreatedTime) 
-VALUES("1", "2", "Student", "1", "Student", "Best teammates ever", 0, 1643440926037);
+VALUES("1", "2", "Student", "1", "Student", "Best teammates ever", 0, "1643440926037");
 
 INSERT IGNORE INTO Comments (CommentID, CreatorID, CreatorType, TargetID, TargetType, CommentData, IsAnonymous, CreatedTime) 
-VALUES("2", "2", "Student", "3", "Student", "Hello how are you, im under the water woooo", 0, 1643440925433);
+VALUES("2", "2", "Student", "3", "Student", "Hello how are you, im under the water woooo", 0, "1643440925433");
 
 INSERT IGNORE INTO Comments (CommentID, CreatorID, CreatorType, TargetID, TargetType, CommentData, IsAnonymous, CreatedTime) 
-VALUES("3", "1", "Student", "2", "Student", "Supp bro", 0, 1643550926037);
+VALUES("3", "1", "Student", "2", "Student", "Supp bro", 0, "1643550926037");
 
 INSERT IGNORE INTO Comments (CommentID, CreatorID, CreatorType, TargetID, TargetType, CommentData, IsAnonymous, CreatedTime) 
-VALUES("4", "3", "Student", "1", "Student", "Programming god", 1, 1643446626037);
+VALUES("4", "3", "Student", "1", "Student", "Programming god", 1, "1643446626037");
