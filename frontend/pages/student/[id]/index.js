@@ -20,6 +20,7 @@ export default function StudentHome({ student_id, name }) {
     let viewModulesLink = `${student_id}/modules`;
     let viewResultsLink = `${student_id}/results`;
     let viewAdjustedResultsLink = `${student_id}/adjusted_results`;
+    let viewTimetableLink = `${student_id}/timetable`;
     let searchOtherStudentsLink = `${student_id}/search`;
     let viewAllStudentsWithRatingsLink = `${student_id}/view_students`;
 
@@ -72,6 +73,13 @@ export default function StudentHome({ student_id, name }) {
                         <a className={styles.card}>
                             <h2>View adjusted results after marks trading &rarr;</h2>
                             <p>View the student's adjusted results after marks trading.</p>
+                        </a>
+                    </Link>
+
+                    <Link href={viewTimetableLink}>
+                        <a className={styles.card}>
+                            <h2>View timetable &rarr;</h2>
+                            <p>View the timetable of the modules taken this semester.</p>
                         </a>
                     </Link>
 

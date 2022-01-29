@@ -47,3 +47,9 @@ export async function getResults(studentID) {
 
     return response.data;
 }
+
+export async function getTimetables(studentID) {
+    const response = await axios.get(`${mockServerBaseUrl}/students/${studentID}/timetable/`);
+
+    return response.data;
+}
