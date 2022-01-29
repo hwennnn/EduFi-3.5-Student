@@ -17,8 +17,9 @@ export async function getServerSideProps({ query }) {
 export default function StudentHome({ student_id, name }) {
     let viewParticularsLink = `${student_id}/view`
     let updateParticulasLink = `${student_id}/edit`;
-    let viewAllStudentsWithRatingsLink = `${student_id}/view_students`;
+    let viewModulesLink = `${student_id}/modules`;
     let searchOtherStudentsLink = `${student_id}/search`;
+    let viewAllStudentsWithRatingsLink = `${student_id}/view_students`;
 
 
     return (
@@ -51,7 +52,7 @@ export default function StudentHome({ student_id, name }) {
                         </a>
                     </Link>
 
-                    <Link href="">
+                    <Link href={viewModulesLink}>
                         <a className={styles.card}>
                             <h2>View modules taken &rarr;</h2>
                             <p>View the modules taken by the student. asdadskadjsk</p>

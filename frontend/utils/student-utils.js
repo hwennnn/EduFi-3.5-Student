@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { serverRequestBaseUrl, clientRequestBaseUrl } from './globals';
+import { serverRequestBaseUrl, clientRequestBaseUrl, mockServerBaseUrl } from './globals';
 
 export async function getStaticPathForStudents() {
     const response = await axios.get(`${serverRequestBaseUrl}/students`);
@@ -34,4 +34,11 @@ export async function getStudent(studentID) {
     const response = await axios.get(`${serverRequestBaseUrl}/students/${studentID}`)
 
     return response.data
+}
+
+export async function getModules(studentID) {
+    console.log(`${mockServerBaseUrl}/api/v1/students/${studentID}/modules/`)
+    const response = await axios.get(`${mockServerBaseUrl}/students/${studentID}/modules/`);
+
+    return response.data;
 }
