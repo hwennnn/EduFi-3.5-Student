@@ -30,7 +30,7 @@ export default function ViewResults({ student_id, results }) {
                 <Table.Cell>{result.mark_id}</Table.Cell>
                 <Table.Cell>{result.module.module_code}</Table.Cell>
                 <Table.Cell>{result.module.module_name}</Table.Cell>
-                <Table.Cell>{result.marks}</Table.Cell>
+                <Table.Cell>{`${result.marks}%`}</Table.Cell>
             </Table.Row>
         )
     }) : 'There are no results'

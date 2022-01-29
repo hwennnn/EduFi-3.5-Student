@@ -30,7 +30,7 @@ export default function ViewAdjustedResults({ student_id, results }) {
                 <Table.Cell>{result.mark_id}</Table.Cell>
                 <Table.Cell>{result.module.module_code}</Table.Cell>
                 <Table.Cell>{result.module.module_name}</Table.Cell>
-                <Table.Cell>{result.adjusted_marks == 0 ? `${result.marks} (The marks are not adjusted)` : result.adjusted_marks}</Table.Cell>
+                <Table.Cell>{result.adjusted_marks == 0 ? `${result.marks}% (The marks are not adjusted)` : `${result.adjusted_marks}% (Original: ${result.marks}%)`}</Table.Cell>
 
             </Table.Row>
         )
@@ -57,7 +57,7 @@ export default function ViewAdjustedResults({ student_id, results }) {
                         <Table.HeaderCell>ID</Table.HeaderCell>
                         <Table.HeaderCell>Module Code</Table.HeaderCell>
                         <Table.HeaderCell>Module Name</Table.HeaderCell>
-                        <Table.HeaderCell>Adjusted Marks</Table.HeaderCell>
+                        <Table.HeaderCell>Marks</Table.HeaderCell>
 
                     </Table.Row>
                 </Table.Header>
