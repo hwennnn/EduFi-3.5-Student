@@ -76,14 +76,14 @@ type Rating struct {
 }
 
 type Comment struct {
-	CommentID   string  `json:"comment_id"`
-	CreatorID   string  `json:"creator_id"`
-	CreatorType string  `json:"creator_type"`
-	TargetID    string  `json:"target_id"`
-	TargetType  string  `json:"target_type"`
-	RatingScore float64 `json:"rating_score"`
-	IsAnonymous bool    `json:"is_anonymouse"`
-	CreatedTime int64   `json:"created_time"`
+	CommentID   string `json:"comment_id"`
+	CreatorID   string `json:"creator_id"`
+	CreatorType string `json:"creator_type"`
+	TargetID    string `json:"target_id"`
+	TargetType  string `json:"target_type"`
+	CommentData string `json:"comment_data"`
+	IsAnonymous bool   `json:"is_anonymouse"`
+	CreatedTime int64  `json:"created_time"`
 }
 
 // this middleware will set the returned content type as application/json
@@ -415,6 +415,44 @@ func getRatingsForStudent(res http.ResponseWriter, req *http.Request) {
 	closeMockDB(database)
 }
 
+// This method is used to retrieve comments from MySQL,
+// and return the result in array of comment json object
+func getCommentsForStudent(res http.ResponseWriter, req *http.Request) {
+	database := openMockDB()
+
+	params := mux.Vars(req)
+	studentID := params["studentid"]
+
+	var results []Comment
+
+	query := fmt.Sprintf("SELECT * FROM Comments WHERE TargetID='%s' AND TargetType='Student'", studentID)
+
+	databaseResults, err := database.Query(query)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	for databaseResults.Next() {
+		// Map the rating object to the record in the table
+		var comment Comment
+
+		err = databaseResults.Scan(&comment.CommentID, &comment.CreatorID, &comment.CreatorType, &comment.TargetID, &comment.TargetType, &comment.CommentData, &comment.IsAnonymous, &comment.CreatedTime)
+
+		if err != nil {
+			panic(err.Error())
+		}
+
+		results = append(results, comment)
+
+	}
+
+	// Returns all the ratings in JSON
+	json.NewEncoder(res).Encode(results)
+
+	closeMockDB(database)
+}
+
 func openMockDB() sql.DB {
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", os.Getenv("APP_DB_USERNAME"), os.Getenv("APP_DB_PASSWORD"), os.Getenv("APP_DB_CONTAINER_NAME"), os.Getenv("APP_DB_PORT"), os.Getenv("APP_DB_NAME"))
 
@@ -444,6 +482,7 @@ func main() {
 	router.HandleFunc("/api/v1/students/{studentid}/results/", getResultsForStudent).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/timetable/", getTimetableForStudent).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/ratings/", getRatingsForStudent).Methods("GET")
+	router.HandleFunc("/api/v1/students/{studentid}/comments/", getCommentsForStudent).Methods("GET")
 
 	// enable cross-origin resource sharing (cors) for all requests
 	handler := cors.AllowAll().Handler(router)
