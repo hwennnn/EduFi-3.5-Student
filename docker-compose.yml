@@ -13,12 +13,29 @@ services:
       MYSQL_PASSWORD: 'password'
       # Password for root access
       MYSQL_ROOT_PASSWORD: 'password'
-    ports:
-      # <Port exposed> : < MySQL Port running inside container>
-      - '3307:3306'
     expose:
       # Opens port 3306 on the container
       - '3306'
+      # Where our data will be persisted
+    networks:
+      - sub-etha
+    
+  mock_db:
+    container_name: edufi_mock_db
+    # We use a mariadb image which supports both amd64 & arm64 architecture
+    build:
+      context: ./backend/mock/database/ # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'Edufi_MockDB'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'password'
+    expose:
+      # Opens port 3307 on the container
+      - '3307'
       # Where our data will be persisted
     networks:
       - sub-etha
