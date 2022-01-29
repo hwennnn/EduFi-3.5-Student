@@ -13,6 +13,8 @@ services:
       MYSQL_PASSWORD: 'password'
       # Password for root access
       MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_TCP_PORT: 3306
+      MYSQL_UNIX_PORT: 3306
     expose:
       # Opens port 3306 on the container
       - '3306'
@@ -20,26 +22,6 @@ services:
     networks:
       - sub-etha
     
-  mock_db:
-    container_name: edufi_mock_db
-    # We use a mariadb image which supports both amd64 & arm64 architecture
-    build:
-      context: ./backend/mock/database/ # Use an image built from the specified dockerfile in the current directory.
-      dockerfile: Dockerfile
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'Edufi_MockDB'
-      MYSQL_USER: 'user'
-      MYSQL_PASSWORD: 'password'
-      # Password for root access
-      MYSQL_ROOT_PASSWORD: 'password'
-    expose:
-      # Opens port 3307 on the container
-      - '3307'
-      # Where our data will be persisted
-    networks:
-      - sub-etha
-  
   student_backend:
     container_name: edufi_student_backend
     # Configuration for building the docker image for the service
@@ -53,7 +35,7 @@ services:
       APP_DB_USERNAME: 'user'
       APP_DB_PASSWORD: 'password'
     expose:
-      # Opens port 8080 on the container
+      # Opens port 9211 on the container
       - '9211'
     ports:
       - 9211:9211
@@ -62,6 +44,55 @@ services:
     restart: always
     depends_on:
       - student_db
+    networks:
+      - sub-etha
+
+  mock_db:
+    container_name: edufi_mock_db
+    # We use a mariadb image which supports both amd64 & arm64 architecture
+    build:
+      context: ./backend/mock/database/ # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'Edufi_MockDB'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_TCP_PORT: 3307
+      MYSQL_UNIX_PORT: 3307
+    expose:
+      # Opens port 3307 on the container
+      - '3307'
+      # Where our data will be persisted
+    ports:
+      - 3307:3307
+    networks:
+      - sub-etha
+
+  mock_backend:
+    container_name: edufi_mock_backend
+    # Configuration for building the docker image for the service
+    build:
+      context: ./backend/mock/server/ # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    environment:
+      APP_DB_CONTAINER_NAME: 'mock_db'
+      APP_DB_NAME: 'Edufi_MockDB'
+      APP_DB_PORT: '3307'
+      APP_DB_USERNAME: 'user'
+      APP_DB_PASSWORD: 'password'
+    expose:
+      # Opens port 9212 on the container
+      - '9212'
+    ports:
+      - 9212:9212
+    volumes:
+      - ./backend/mock/server:/code
+    restart: always
+    depends_on:
+      - mock_db
     networks:
       - sub-etha
 
@@ -74,6 +105,7 @@ services:
       - '4000'
     depends_on:
       - student_backend
+      - mock_backend
     networks:
       - sub-etha
   
