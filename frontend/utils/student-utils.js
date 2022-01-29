@@ -71,3 +71,29 @@ export async function getStudentsWithRatings() {
 
     return results;
 }
+
+
+export async function getStudentsWithAllInformation() {
+    const response = await axios.get(`${serverRequestBaseUrl}/students/`);
+
+    const students = response.data;
+
+    let results = []
+
+    for (let student of students) {
+        const ratingsWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/ratings/`)).data;
+        const commentsWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/comments/`)).data;
+        const modulesWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/modules/`)).data;
+        const timetableWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/timetable/`)).data;
+
+        let data = { ...student };
+        data["ratings"] = ratingsWithStudent;
+        data["comments"] = commentsWithStudent;
+        data["modules"] = modulesWithStudent;
+        data["timetable"] = timetableWithStudent;
+
+        results.push(data);
+    }
+
+    return results;
+}
