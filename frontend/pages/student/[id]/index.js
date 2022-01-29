@@ -19,6 +19,7 @@ export default function StudentHome({ student_id, name }) {
     let updateParticulasLink = `${student_id}/edit`;
     let viewModulesLink = `${student_id}/modules`;
     let viewResultsLink = `${student_id}/results`;
+    let viewAdjustedResultsLink = `${student_id}/adjusted_results`;
     let searchOtherStudentsLink = `${student_id}/search`;
     let viewAllStudentsWithRatingsLink = `${student_id}/view_students`;
 
@@ -67,7 +68,7 @@ export default function StudentHome({ student_id, name }) {
                         </a>
                     </Link>
 
-                    <Link href="">
+                    <Link href={viewAdjustedResultsLink}>
                         <a className={styles.card}>
                             <h2>View adjusted results after marks trading &rarr;</h2>
                             <p>View the student's adjusted results after marks trading.</p>
