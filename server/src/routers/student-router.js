@@ -23,7 +23,10 @@ studentRouter.get("/", async function (req, res) {
 studentRouter.get("/:studentID", async function (req, res) {
     try {
         let studentID = req.params.studentID;
-        const result = await axios.get(`${studentEndpointBaseURL}/${studentID}`);
+        const result = await axios.get(url.format({
+            pathname: `${studentEndpointBaseURL}/${studentID}`,
+            query: req.query,
+        }));
 
         res.status(result.status).json(result.data);
     } catch (exception) {

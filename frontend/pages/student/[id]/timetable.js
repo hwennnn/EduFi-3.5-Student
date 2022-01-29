@@ -1,4 +1,4 @@
-import { getTimetables } from '../../../utils/student-utils';
+import { getStudentWithTimetables } from '../../../utils/student-utils';
 import React from 'react'
 import { Button, Table } from 'semantic-ui-react'
 import styles from '../../../styles/Home.module.css'
@@ -8,23 +8,23 @@ import Router from 'next/router';
 
 export async function getServerSideProps({ query }) {
     const student_id = query.id
-    const results = await getTimetables(student_id);
+    const student = await getStudentWithTimetables(student_id);
 
     return {
         props: {
             student_id,
-            results
+            ...student
         }
     }
 }
 
-export default function ViewTimetable({ student_id, results }) {
+export default function ViewTimetable({ student_id, timetable }) {
 
     function backToStudentHome() {
         Router.push(`/student/${student_id}`)
     }
 
-    const rows = results != null ? results.map(function (result) {
+    const rows = timetable != null ? timetable.map(function (result) {
         return (
             <Table.Row key={result.lesson_id}>
                 <Table.Cell>{result.lesson_id}</Table.Cell>

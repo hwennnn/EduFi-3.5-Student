@@ -1,4 +1,4 @@
-import { getModules } from '../../../utils/student-utils';
+import { getStudentWithModules } from '../../../utils/student-utils';
 import React from 'react'
 import { Button, Table } from 'semantic-ui-react'
 import styles from '../../../styles/Home.module.css'
@@ -8,12 +8,12 @@ import Router from 'next/router';
 
 export async function getServerSideProps({ query }) {
     const student_id = query.id
-    const modules = await getModules(student_id);
-
+    const student = await getStudentWithModules(student_id);
+    console.log(student)
     return {
         props: {
             student_id,
-            modules
+            ...student,
         }
     }
 }
