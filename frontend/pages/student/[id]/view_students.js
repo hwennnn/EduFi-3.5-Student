@@ -25,8 +25,21 @@ export default function ViewStudents({ student_id, students }) {
         Router.push(`/student/${student_id}`)
     }
 
-    function viewRatingsDetail() {
-        Router.push(`/student/${student_id}`)
+    function formatRatingsDetails(ratings) {
+        // sort the created time in descending order
+        ratings.sort((second, first) => first.created_time - second.created_time)
+
+        let result = []
+        let index = 1
+
+        for (const rating of ratings) {
+            let senderName = rating.is_anonymous ? 'Anonymous User' : `${rating.creator_type} #${rating.creator_id}`
+
+            result.push(`${index}. ${senderName} gave ${rating.rating_score} ratings at ${formatDateStringFromMs(rating.created_time)}.`)
+            ++index
+        }
+
+        return result
     }
 
     function formatRatings(ratings) {
@@ -50,7 +63,7 @@ export default function ViewStudents({ student_id, students }) {
                 <Table.Cell>{student.phone_number}</Table.Cell>
                 <Table.Cell>{formatDateStringFromMs(parseInt(student.date_of_birth))}</Table.Cell>
                 <Table.Cell>{`${formatRatings(student.ratings)} (${student.ratings.length})`}</Table.Cell>
-                <Table.Cell><Button onClick={() => viewRatingsDetail()} >View Ratings Detail</Button></Table.Cell>
+                <Table.Cell style={{ whiteSpace: "pre-line" }}>{formatRatingsDetails(student.ratings).join("\n\n")}</Table.Cell>
             </Table.Row>
         )
     }) : 'There are no students'
@@ -79,7 +92,7 @@ export default function ViewStudents({ student_id, students }) {
                         <Table.HeaderCell>PhoneNumber</Table.HeaderCell>
                         <Table.HeaderCell>DateOfBirth</Table.HeaderCell>
                         <Table.HeaderCell>Average Ratings</Table.HeaderCell>
-                        <Table.HeaderCell>Actions</Table.HeaderCell>
+                        <Table.HeaderCell>Ratings Details</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
