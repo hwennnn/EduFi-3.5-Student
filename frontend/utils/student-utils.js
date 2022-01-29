@@ -53,3 +53,21 @@ export async function getTimetables(studentID) {
 
     return response.data;
 }
+
+export async function getStudentsWithRatings() {
+    const response = await axios.get(`${serverRequestBaseUrl}/students/`);
+
+    const students = response.data;
+
+    let results = []
+
+    for (let student of students) {
+        const ratingsWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/ratings/`)).data;
+
+        let data = { ...student };
+        data["ratings"] = ratingsWithStudent;
+        results.push(data);
+    }
+
+    return results;
+}

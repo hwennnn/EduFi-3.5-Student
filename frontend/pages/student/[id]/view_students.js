@@ -1,4 +1,4 @@
-import { getStudents } from '../../../utils/student-utils';
+import { getStudentsWithRatings } from '../../../utils/student-utils';
 import React from 'react'
 import { Button, Table } from 'semantic-ui-react'
 import styles from '../../../styles/Home.module.css'
@@ -9,7 +9,7 @@ import { formatDateStringFromMs } from '../../../utils/date-utils';
 
 export async function getServerSideProps({ query }) {
     const student_id = query.id
-    const students = await getStudents();
+    const students = await getStudentsWithRatings();
 
     return {
         props: {
@@ -25,6 +25,22 @@ export default function ViewStudents({ student_id, students }) {
         Router.push(`/student/${student_id}`)
     }
 
+    function viewRatingsDetail() {
+        Router.push(`/student/${student_id}`)
+    }
+
+    function formatRatings(ratings) {
+        let ratingCount = 0;
+        let totalRatings = 0;
+
+        for (const rating of ratings) {
+            ratingCount += 1;
+            totalRatings += rating.rating_score;
+        }
+
+        return totalRatings / ratingCount;
+    }
+
     const rows = students != null ? students.map(function (student) {
         return (
             <Table.Row key={student.student_id}>
@@ -33,6 +49,8 @@ export default function ViewStudents({ student_id, students }) {
                 <Table.Cell>{student.address}</Table.Cell>
                 <Table.Cell>{student.phone_number}</Table.Cell>
                 <Table.Cell>{formatDateStringFromMs(parseInt(student.date_of_birth))}</Table.Cell>
+                <Table.Cell>{`${formatRatings(student.ratings)} (${student.ratings.length})`}</Table.Cell>
+                <Table.Cell><Button onClick={() => viewRatingsDetail()} >View Ratings Detail</Button></Table.Cell>
             </Table.Row>
         )
     }) : 'There are no students'
@@ -60,6 +78,8 @@ export default function ViewStudents({ student_id, students }) {
                         <Table.HeaderCell>Addrress</Table.HeaderCell>
                         <Table.HeaderCell>PhoneNumber</Table.HeaderCell>
                         <Table.HeaderCell>DateOfBirth</Table.HeaderCell>
+                        <Table.HeaderCell>Average Ratings</Table.HeaderCell>
+                        <Table.HeaderCell>Actions</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
