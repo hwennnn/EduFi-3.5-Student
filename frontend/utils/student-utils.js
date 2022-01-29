@@ -1,18 +1,6 @@
 import axios from 'axios';
 import { serverRequestBaseUrl, clientRequestBaseUrl, mockServerBaseUrl } from './globals';
 
-export async function getStaticPathForStudents() {
-    const response = await axios.get(`${serverRequestBaseUrl}/students`);
-
-    return response.data.map((student) => {
-        return {
-            params: {
-                id: student.student_id
-            }
-        }
-    })
-}
-
 export async function getStudents() {
     const response = await axios.get(`${serverRequestBaseUrl}/students/`);
 
@@ -85,12 +73,15 @@ export async function getStudentsWithAllInformation() {
         const commentsWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/comments/`)).data;
         const modulesWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/modules/`)).data;
         const timetableWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/timetable/`)).data;
+        const resultsWithStudent = (await axios.get(`${mockServerBaseUrl}/students/${student.student_id}/results/`)).data;
+
 
         let data = { ...student };
         data["ratings"] = ratingsWithStudent;
         data["comments"] = commentsWithStudent;
         data["modules"] = modulesWithStudent;
         data["timetable"] = timetableWithStudent;
+        data["results"] = resultsWithStudent;
 
         results.push(data);
     }

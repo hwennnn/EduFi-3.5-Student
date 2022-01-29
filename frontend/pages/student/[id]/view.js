@@ -1,4 +1,4 @@
-import { getStaticPathForStudents, getStudent } from '../../../utils/student-utils';
+import { getStudent } from '../../../utils/student-utils';
 import React from 'react'
 import { Button, Form } from 'semantic-ui-react'
 import styles from '../../../styles/Home.module.css'

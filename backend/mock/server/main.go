@@ -128,6 +128,38 @@ func getTutors(res http.ResponseWriter, req *http.Request) {
 
 // This method is used to retrieve tutors from MySQL,
 // and return the result in array of tutor json object
+func getTutor(res http.ResponseWriter, req *http.Request) {
+	database := openMockDB()
+
+	params := mux.Vars(req)
+	tutorID := params["tutorid"]
+
+	query := fmt.Sprintf("SELECT * FROM Tutors WHERE TutorID='%s'", tutorID)
+
+	databaseResults, err := database.Query(query)
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	var tutor Tutor
+
+	for databaseResults.Next() {
+		// Map the tutor object to the record in the table
+		err = databaseResults.Scan(&tutor.TutorID, &tutor.FirstName, &tutor.LastName, &tutor.Email, &tutor.Descriptions)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	// Returns all the tutors in JSON
+	json.NewEncoder(res).Encode(tutor)
+
+	closeMockDB(database)
+}
+
+// This method is used to retrieve tutors from MySQL,
+// and return the result in array of tutor json object
 func getModulesForStudent(res http.ResponseWriter, req *http.Request) {
 	database := openMockDB()
 
@@ -478,6 +510,8 @@ func main() {
 	router.Use(middleware)
 
 	router.HandleFunc("/api/v1/tutors/", getTutors).Methods("GET")
+	router.HandleFunc("/api/v1/tutors/{tutorid}/", getTutor).Methods("GET")
+
 	router.HandleFunc("/api/v1/students/{studentid}/modules/", getModulesForStudent).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/results/", getResultsForStudent).Methods("GET")
 	router.HandleFunc("/api/v1/students/{studentid}/timetable/", getTimetableForStudent).Methods("GET")
