@@ -12,10 +12,10 @@ import (
 	models "students/models"
 )
 
-const serverEndpointBaseURL = "http://acl:4000/api/v1"
+const serverEndpointBaseURL = "http://student_acl:4000/api/v1"
 
-var moduleEndpointBaseURL = fmt.Sprintf("%s/module", serverEndpointBaseURL)
-var marksEndpointBaseURL = fmt.Sprintf("%s/module", serverEndpointBaseURL)
+var moduleEndpointBaseURL = fmt.Sprintf("%s/modules", serverEndpointBaseURL)
+var marksEndpointBaseURL = fmt.Sprintf("%s/marks", serverEndpointBaseURL)
 var timetableEndpointBaseURL = fmt.Sprintf("%s/timetable", serverEndpointBaseURL)
 var ratingsEndpointBaseURL = fmt.Sprintf("%s/ratings", serverEndpointBaseURL)
 var commentsEndpointBaseURL = fmt.Sprintf("%s/comments", serverEndpointBaseURL)
@@ -60,7 +60,7 @@ func FormmatedUpdateStudentQueryField(newStudent models.Student) string {
 func FetchModules(studentID string) []models.Module {
 	var result []models.Module
 
-	url := fmt.Sprintf("%s/%s/", moduleEndpointBaseURL, studentID)
+	url := fmt.Sprintf("%s/%s", moduleEndpointBaseURL, studentID)
 
 	// Create a new request using http
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
@@ -84,7 +84,7 @@ func FetchModules(studentID string) []models.Module {
 func FetchMarks(studentID string) []models.Mark {
 	var result []models.Mark
 
-	url := fmt.Sprintf("%s/%s/", marksEndpointBaseURL, studentID)
+	url := fmt.Sprintf("%s/%s", marksEndpointBaseURL, studentID)
 
 	// Create a new request using http
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
@@ -108,7 +108,7 @@ func FetchMarks(studentID string) []models.Mark {
 func FetchTimetable(studentID string) []models.Lesson {
 	var result []models.Lesson
 
-	url := fmt.Sprintf("%s/%s/", timetableEndpointBaseURL, studentID)
+	url := fmt.Sprintf("%s/%s", timetableEndpointBaseURL, studentID)
 
 	// Create a new request using http
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
@@ -132,7 +132,7 @@ func FetchTimetable(studentID string) []models.Lesson {
 func FetchRatings(studentID string) []models.Rating {
 	var result []models.Rating
 
-	url := fmt.Sprintf("%s/%s/", ratingsEndpointBaseURL, studentID)
+	url := fmt.Sprintf("%s/%s", ratingsEndpointBaseURL, studentID)
 
 	// Create a new request using http
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
@@ -156,7 +156,7 @@ func FetchRatings(studentID string) []models.Rating {
 func FetchComments(studentID string) []models.Comment {
 	var result []models.Comment
 
-	url := fmt.Sprintf("%s/%s/", commentsEndpointBaseURL, studentID)
+	url := fmt.Sprintf("%s/%s", commentsEndpointBaseURL, studentID)
 
 	// Create a new request using http
 	req, _ := http.NewRequest(http.MethodGet, url, nil)

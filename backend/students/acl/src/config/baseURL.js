@@ -1,1 +1,6 @@
 export const studentEndpointBaseURL = 'http://student_backend:8080/api/v1/students'
+export const moduleEndpointBaseURL = 'http://mock_backend:9212/api/v1/modules'
+export const markEndpointBaseURL = 'http://mock_backend:9212/api/v1/marks'
+export const timetableEndpointBaseURL = 'http://mock_backend:9212/api/v1/timetable'
+export const ratingEndpointBaseURL = 'http://mock_backend:9212/api/v1/ratings'
+export const commentEndpointBaseURL = 'http://mock_backend:9212/api/v1/comments'
