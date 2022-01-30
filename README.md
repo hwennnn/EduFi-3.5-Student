@@ -108,6 +108,8 @@ The usage of ACL in the project is that when the student microservice needs to c
 
 ### React Next.js Frontend
 
+Kindly refer to [this](docs/frontend_screenshots.md) for the screenshots of the web frontend.
+
 The frontend is written is React.js with Next.js. The frontend simulates the features of EduFi platform such as
 
 - View students particulars
@@ -157,7 +159,7 @@ Besides, the CD pipeline will build and push the container images to the DockerH
 
 ## API Documentation
 
-Kindly refer to [this](docs/README.md) for more details on the EduFi Student API server.
+Kindly refer to [this](docs/README.md) for more details on the EduFi Student API Server and Mock REST API Server.
 
 ## **Credits**
 
