@@ -24,13 +24,23 @@
 
 ### 1.1 **[GET]** api/v1/students/
 
-It retrieves the students based on the request body parameters (if there is any). It supports filtering the students by putting the filtered condition in the request body parameters.
+It retrieves the students based on the request body parameters (if there is any). It supports retrieving other information of the students by putting the requirements in the url query parameters. (It is useful when you need some mock data in your own package requirements.)
 
 #### Endpoint URL
 
 ```bash
 http://10.31.11.12:9211/api/v1/students/
 ```
+
+#### URL Query Paremeters
+
+|   Name    | Value |   Required   | Description                                                                |
+| :-------: | :---: | :----------: | -------------------------------------------------------------------------- |
+|  modules  | true  | Not required | Fetch module information by sending http request to module microservice    |
+|   marks   | true  | Not required | Fetch module information by sending http request to marks microservice     |
+| timetable | true  | Not required | Fetch module information by sending http request to timetable microservice |
+|  ratings  | true  | Not required | Fetch module information by sending http request to ratings microservice   |
+| comments  | true  | Not required | Fetch module information by sending http request to comments microservice  |
 
 #### JSON Body Paremeters
 
@@ -44,6 +54,8 @@ http://10.31.11.12:9211/api/v1/students/
 #### Response
 
 The response will be a status code 200 and an array of student json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
+
+Example of `http://10.31.11.12:9211/api/v1/students/`
 
 ```json
 [
@@ -71,11 +83,147 @@ The response will be a status code 200 and an array of student json object if su
 ]
 ```
 
+Example of `http://10.31.11.12:9211/api/v1/students?ratings=true&modules=true`
+
+```json
+[
+  {
+    "student_id": "1",
+    "name": "Wai Hou Man",
+    "date_of_birth": "996076800000",
+    "address": "BLK678B Jurong West, Singapore",
+    "phone_number": "6511111111",
+    "ratings": [
+      {
+        "rating_id": "1",
+        "creator_id": "2",
+        "creator_type": "Student",
+        "target_id": "1",
+        "target_type": "Student",
+        "rating_score": 4,
+        "is_anonymous": false,
+        "created_time": "1643440926037"
+      },
+      {
+        "rating_id": "4",
+        "creator_id": "3",
+        "creator_type": "Student",
+        "target_id": "1",
+        "target_type": "Student",
+        "rating_score": 3,
+        "is_anonymous": true,
+        "created_time": "1643446626037"
+      }
+    ],
+    "modules": [
+      {
+        "module_id": "1",
+        "module_code": "CM",
+        "module_name": "Computing Math",
+        "synopsis": "Learn MATH",
+        "learning_objectives": "UNION INTERSEC",
+        "tutor": {
+          "tutor_id": "1",
+          "first_name": "Wen Qiang",
+          "last_name": "Wesley Teo",
+          "email": "wesleytwq@gmail.com",
+          "descriptions": "This is the description for Tutor #1"
+        }
+      },
+      {
+        "module_id": "2",
+        "module_code": "PRG1",
+        "module_name": "Programming 1",
+        "synopsis": "Learn introductory programming",
+        "learning_objectives": "PYTHON PROGRAMMING",
+        "tutor": {
+          "tutor_id": "2",
+          "first_name": "Kheng Hian",
+          "last_name": "Low",
+          "email": "lowkh@gmail.com",
+          "descriptions": "This is the description for Tutor #2"
+        }
+      }
+    ]
+  },
+  {
+    "student_id": "2",
+    "name": "Zachary Hong Rui Quan",
+    "date_of_birth": "1007136000000",
+    "address": "BLK123F Orchard Rd",
+    "phone_number": "6512345678",
+    "ratings": [
+      {
+        "rating_id": "3",
+        "creator_id": "1",
+        "creator_type": "Student",
+        "target_id": "2",
+        "target_type": "Student",
+        "rating_score": 4.5,
+        "is_anonymous": false,
+        "created_time": "1643550926037"
+      }
+    ],
+    "modules": [
+      {
+        "module_id": "1",
+        "module_code": "CM",
+        "module_name": "Computing Math",
+        "synopsis": "Learn MATH",
+        "learning_objectives": "UNION INTERSEC",
+        "tutor": {
+          "tutor_id": "1",
+          "first_name": "Wen Qiang",
+          "last_name": "Wesley Teo",
+          "email": "wesleytwq@gmail.com",
+          "descriptions": "This is the description for Tutor #1"
+        }
+      }
+    ]
+  },
+  {
+    "student_id": "3",
+    "name": "Tee Yong Teng",
+    "date_of_birth": "912441600000",
+    "address": "BLK666A Punggol",
+    "phone_number": "6533333333",
+    "ratings": [
+      {
+        "rating_id": "2",
+        "creator_id": "2",
+        "creator_type": "Student",
+        "target_id": "3",
+        "target_type": "Student",
+        "rating_score": 5,
+        "is_anonymous": false,
+        "created_time": "1643440925433"
+      }
+    ],
+    "modules": [
+      {
+        "module_id": "2",
+        "module_code": "PRG1",
+        "module_name": "Programming 1",
+        "synopsis": "Learn introductory programming",
+        "learning_objectives": "PYTHON PROGRAMMING",
+        "tutor": {
+          "tutor_id": "2",
+          "first_name": "Kheng Hian",
+          "last_name": "Low",
+          "email": "lowkh@gmail.com",
+          "descriptions": "This is the description for Tutor #2"
+        }
+      }
+    ]
+  }
+]
+```
+
 ---
 
 ### 1.2 **[GET]** api/v1/students/:studentid
 
-It retrieves the student associated with the supplied studentid. A studentID must be supplied in the request query parameters.
+It retrieves the student associated with the supplied studentid. A studentID must be supplied in the request query parameters. It also supports retrieving other information of the students by putting the requirements in the url request parameters. (It is useful when you need some mock data in your own package requirements.)
 
 #### Endpoint URL
 
@@ -83,9 +231,21 @@ It retrieves the student associated with the supplied studentid. A studentID mus
 http://10.31.11.12:9211/api/v1/students/1
 ```
 
+#### URL Query Paremeters
+
+|   Name    | Value |   Required   | Description                                                                |
+| :-------: | :---: | :----------: | -------------------------------------------------------------------------- |
+|  modules  | true  | Not required | Fetch module information by sending http request to module microservice    |
+|   marks   | true  | Not required | Fetch module information by sending http request to marks microservice     |
+| timetable | true  | Not required | Fetch module information by sending http request to timetable microservice |
+|  ratings  | true  | Not required | Fetch module information by sending http request to ratings microservice   |
+| comments  | true  | Not required | Fetch module information by sending http request to comments microservice  |
+
 #### Response
 
 The response will be a status code 200 and a student json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful. For example, it will return 404 if no record is found.
+
+Example of `http://10.31.11.12:9211/api/v1/students/1`
 
 ```json
 {
@@ -94,6 +254,180 @@ The response will be a status code 200 and a student json object if successful, 
   "date_of_birth": "996076800000",
   "address": "BLK678B Jurong West, Singapore",
   "phone_number": "6511111111"
+}
+```
+
+Example of `http://10.31.11.12:9211/api/v1/students/1?modules=true&marks=true&timetable=true&ratings=true&comments=true`
+
+```json
+{
+  "student_id": "1",
+  "name": "Wai Hou Man",
+  "date_of_birth": "996076800000",
+  "address": "BLK678B Jurong West, Singapore",
+  "phone_number": "6511111111",
+  "ratings": [
+    {
+      "rating_id": "1",
+      "creator_id": "2",
+      "creator_type": "Student",
+      "target_id": "1",
+      "target_type": "Student",
+      "rating_score": 4,
+      "is_anonymous": false,
+      "created_time": "1643440926037"
+    },
+    {
+      "rating_id": "4",
+      "creator_id": "3",
+      "creator_type": "Student",
+      "target_id": "1",
+      "target_type": "Student",
+      "rating_score": 3,
+      "is_anonymous": true,
+      "created_time": "1643446626037"
+    }
+  ],
+  "comments": [
+    {
+      "comment_id": "1",
+      "creator_id": "2",
+      "creator_type": "Student",
+      "target_id": "1",
+      "target_type": "Student",
+      "comment_data": "Best teammates ever",
+      "is_anonymouse": false,
+      "created_time": "1643440926037"
+    },
+    {
+      "comment_id": "4",
+      "creator_id": "3",
+      "creator_type": "Student",
+      "target_id": "1",
+      "target_type": "Student",
+      "comment_data": "Programming god",
+      "is_anonymouse": true,
+      "created_time": "1643446626037"
+    }
+  ],
+  "modules": [
+    {
+      "module_id": "1",
+      "module_code": "CM",
+      "module_name": "Computing Math",
+      "synopsis": "Learn MATH",
+      "learning_objectives": "UNION INTERSEC",
+      "tutor": {
+        "tutor_id": "1",
+        "first_name": "Wen Qiang",
+        "last_name": "Wesley Teo",
+        "email": "wesleytwq@gmail.com",
+        "descriptions": "This is the description for Tutor #1"
+      }
+    },
+    {
+      "module_id": "2",
+      "module_code": "PRG1",
+      "module_name": "Programming 1",
+      "synopsis": "Learn introductory programming",
+      "learning_objectives": "PYTHON PROGRAMMING",
+      "tutor": {
+        "tutor_id": "2",
+        "first_name": "Kheng Hian",
+        "last_name": "Low",
+        "email": "lowkh@gmail.com",
+        "descriptions": "This is the description for Tutor #2"
+      }
+    }
+  ],
+  "results": [
+    {
+      "mark_id": "1",
+      "module_id": "1",
+      "student_id": "1",
+      "marks": 81.5,
+      "adjusted_marks": 85,
+      "module": {
+        "module_id": "1",
+        "module_code": "CM",
+        "module_name": "Computing Math",
+        "synopsis": "Learn MATH",
+        "learning_objectives": "UNION INTERSEC",
+        "tutor": {
+          "tutor_id": "1",
+          "first_name": "Wen Qiang",
+          "last_name": "Wesley Teo",
+          "email": "wesleytwq@gmail.com",
+          "descriptions": "This is the description for Tutor #1"
+        }
+      }
+    },
+    {
+      "mark_id": "2",
+      "module_id": "2",
+      "student_id": "1",
+      "marks": 95,
+      "adjusted_marks": 0,
+      "module": {
+        "module_id": "2",
+        "module_code": "PRG1",
+        "module_name": "Programming 1",
+        "synopsis": "Learn introductory programming",
+        "learning_objectives": "PYTHON PROGRAMMING",
+        "tutor": {
+          "tutor_id": "2",
+          "first_name": "Kheng Hian",
+          "last_name": "Low",
+          "email": "lowkh@gmail.com",
+          "descriptions": "This is the description for Tutor #2"
+        }
+      }
+    }
+  ],
+  "timetable": [
+    {
+      "lesson_id": "1",
+      "module_id": "1",
+      "lesson_day": "Monday",
+      "start_time": "0900",
+      "end_time": "1100",
+      "module": {
+        "module_id": "1",
+        "module_code": "CM",
+        "module_name": "Computing Math",
+        "synopsis": "Learn MATH",
+        "learning_objectives": "UNION INTERSEC",
+        "tutor": {
+          "tutor_id": "1",
+          "first_name": "Wen Qiang",
+          "last_name": "Wesley Teo",
+          "email": "wesleytwq@gmail.com",
+          "descriptions": "This is the description for Tutor #1"
+        }
+      }
+    },
+    {
+      "lesson_id": "2",
+      "module_id": "2",
+      "lesson_day": "Tuesday",
+      "start_time": "1400",
+      "end_time": "1600",
+      "module": {
+        "module_id": "2",
+        "module_code": "PRG1",
+        "module_name": "Programming 1",
+        "synopsis": "Learn introductory programming",
+        "learning_objectives": "PYTHON PROGRAMMING",
+        "tutor": {
+          "tutor_id": "2",
+          "first_name": "Kheng Hian",
+          "last_name": "Low",
+          "email": "lowkh@gmail.com",
+          "descriptions": "This is the description for Tutor #2"
+        }
+      }
+    }
+  ]
 }
 ```
 
