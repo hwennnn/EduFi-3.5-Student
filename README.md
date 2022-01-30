@@ -23,7 +23,9 @@
   - [Continuous Integration](#Continuous-Integration)
   - [Continuous Delivery](#Continuous-Delivery)
 
-- [API Documentation](#API-Documentation)
+- [API Documentation](docs/frontend_screenshots.md)
+
+- [Web Frontend Screenshots](#API-Documentation)
 
 - [Credits](#credits)
 
