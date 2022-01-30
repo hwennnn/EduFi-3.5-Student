@@ -51,9 +51,9 @@ Each microservice in the project is containerised and hosted on the docker regis
 
 Ideally, in real practice, there should be only one endpoint exposed to the external network. In this project, there are two services implemented for the end-user which are web frontend, and the server API. Hence, the Nginx proxy server is used to better facilitate this idea.
 
-By definition, a Nginx HTTPS reverse proxy is an intermediary proxy service which takes a client request, passes it on to one or more servers, and subsequently delivers the server's response back to the client. In this project, the Nginx reverse proxy is the only exposed endpoint (at port 9210) to the external network. The user browses http://localhost:9210 for the frontend, and retrieves the data from http://localhost:9210/server.
+By definition, a Nginx HTTPS reverse proxy is an intermediary proxy service which takes a client request, passes it on to one or more servers, and subsequently delivers the server's response back to the client. In this project, the Nginx reverse proxy is the only exposed endpoint (at port 9210) to the external network. The user browses `http://localhost:9210` for the frontend, and retrieves the data from `http://localhost:9210/server`.
 
-Based on the configuration in the proxy, the client requests from http://localhost:9210 will be redirected to the web frontend container which resides at port 3000 internally in the docker network. Meanwhile the API requests from http://localhost:9210/server will be redirected to the general server container which resides at port 5000 internally in the docker network.
+Based on the configuration in the proxy, the client requests from `http://localhost:9210` will be redirected to the web frontend container which resides at port 3000 internally in the docker network. Meanwhile the API requests from `http://localhost:9210/server` will be redirected to the general server container which resides at port 5000 internally in the docker network.
 
 One of the benefits of using the Nginx reverse proxy is that it reduces the surfaced endpoints needed for the backend, in other hands, it also reduce complexity at the user end as the user would only need to know one endpoint of the service. Besides, it also increases security by acting as a line of defense for the backend servers.
 
