@@ -26,6 +26,19 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 
 Finally, open http://localhost:9210 for the frontend client.
 
+## Containers
+
+|                  Container Name                  |                  Description                   | Links                                                                                                                                                                         |
+| :----------------------------------------------: | :--------------------------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  [edufi_student_db](backend/students/database)   |  MySQL database used for Student Microservice  | [DockerHub](https://hub.docker.com/r/hwendev/edufi_student_db) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_student_db)           |
+| [edufi_student_backend](backend/students/server) |    REST API Server for Student Microservice    | [DockerHub](https://hub.docker.com/r/hwendev/edufi_student_backend) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_student_backend) |
+|    [edufi_student_acl](backend/students/acl)     | Anti Corruption Layer for Student Microservice | [DockerHub](https://hub.docker.com/r/hwendev/edufi_student_acl) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_student_acl)         |
+|      [edufi_mock_db](backend/mock/database)      |              Mock MySQL database               | [DockerHub](https://hub.docker.com/r/hwendev/edufi_mock_db) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_mock_db)                 |
+|    [edufi_mock_backend](backend/mock/server)     |       REST API Server for Mock Database        | [DockerHub](https://hub.docker.com/r/hwendev/edufi_mock_server) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_student_db)          |
+|           [edufi_proxy](backend/proxy)           |              Nginx Reverse Proxy               | [DockerHub](https://hub.docker.com/r/hwendev/edufi_web_frontend) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_mock_server)        |
+|          [edufi_general_server](server)          |       General-Purpose API Backend Server       | [DockerHub](https://hub.docker.com/r/hwendev/edufi_general_server) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_general_server)   |
+|          [edufi_web_frontend](frontend)          |             React Next.js Frontend             | [DockerHub](https://hub.docker.com/r/hwendev/edufi_web_frontend) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_web_frontend)       |
+
 ## Architecture Diagram
 
 ![Architecture Diagram](docs/architecture_diagram.png)
@@ -46,7 +59,7 @@ One of the benefits of using the Nginx reverse proxy is that it reduces the surf
 
 The business logic from the assignment case studies (3.5 Student Package) breaks down into **seven API microservices** (student, tutor, module, mark, timetable, rating and comment). In this project, I was responsible for the student domain and I implemented the [student database](backend/students/database) and its [REST API backend](backend/students/server). I would need to be dependent on another 6 microservices developed by other people. As of 29 January 2022, I was having difficulties to consumer other microservices, hence I decided to create a [mock database](backend/mock/database) and [mock server](backend/mock/server) to satisfy the necessary requirements and for demo purposes.
 
-In general, each microservice is connected to its own MySQL database. The microservice will serve a server endpoint which allows external http requests with methods (GET/PUT/POST) to retrieve, create, or update the row(s) in the backend database related to the microservice module. For example, **student microservice** server allows for retrieving all students with customisable query parameters at `api/v1/drivers`, and retrieving, creating, updating for a specific student at `api/v1/student/{studentid}`.
+In general, each microservice is connected to its own MySQL database. The microservice will serve a server endpoint which allows external http requests with methods (GET/PUT/POST) to retrieve, create, or update the row(s) in the backend database related to the microservice module. For example, **student microservice** server allows for retrieving all students with customisable query parameters at `api/v1/students`, and retrieving, creating, updating for a specific student at `api/v1/students/{studentid}`.
 
 In addition, each microservice is completely isolated from another microservices, hence will not cause any negative impacts when the other microservice is down or being redeployed. With the design of the microservice, each microservice is independent and loosely coupled, and can be independent upgraded or restarted, unlike monolith or n-tier architecture which would need to restart the whole system after the new deployment.
 
