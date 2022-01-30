@@ -1,5 +1,32 @@
 # EduFi-3.5-Student
 
+## Table of Contents
+
+- [Folder Structure](#Folder-Structure)
+
+- [Usage](#Usage)
+
+- [Containers](#Containers)
+
+- [Architecture Diagram](#Architecture-Diagram)
+
+- [Architecture Design Consideration](#Architecture-Design-Consideration)
+
+  - [Nginx Proxy Server](#Nginx-Proxy-Server)
+  - [Microservices Design](#Microservices-Design)
+  - [Anti-corruption Layer](#Anti-corruption-Layer)
+  - [React Next.js Frontend](#React-Next.js-Frontend)
+  - [General-Purpose API Backend Server](#General-Purpose-API-Backend-Server)
+
+- [DevOps Approach](#Devops-Approach)
+
+  - [Continuous Integration](#Continuous-Integration)
+  - [Continuous Delivery](#Continuous-Delivery)
+
+- [API Documentation](#API-Documentation)
+
+- [Credits](#credits)
+
 ## Folder Structure
 
 |       Codebase       |            Description             |
