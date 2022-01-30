@@ -53,23 +53,33 @@ func getStudents(res http.ResponseWriter, req *http.Request) {
 			panic(err.Error())
 		}
 
+		// Check if the params request to retrieve related module information (?modules=true)
 		if len(params["modules"]) > 0 && params["modules"][0] == "true" {
+			// Fetch module information by sending http request to module microservice
 			student.Modules = utils.FetchModules(student.StudentID)
 		}
 
+		// Check if the params request to retrieve related marks information (?marks=true)
 		if len(params["marks"]) > 0 && params["marks"][0] == "true" {
+			// Fetch marks information by sending http request to marks microservice
 			student.Results = utils.FetchMarks(student.StudentID)
 		}
 
+		// Check if the params request to retrieve related timetable information (?timetable=true)
 		if len(params["timetable"]) > 0 && params["timetable"][0] == "true" {
+			// Fetch timetable information by sending http request to timetable microservice
 			student.Timetable = utils.FetchTimetable(student.StudentID)
 		}
 
+		// Check if the params request to retrieve related ratings information (?ratings=true)
 		if len(params["ratings"]) > 0 && params["ratings"][0] == "true" {
+			// Fetch ratings information by sending http request to ratings microservice
 			student.Ratings = utils.FetchRatings(student.StudentID)
 		}
 
+		// Check if the params request to retrieve related comments information (?comments=true)
 		if len(params["comments"]) > 0 && params["comments"][0] == "true" {
+			// Fetch comments information by sending http request to comments microservice
 			student.Comments = utils.FetchComments(student.StudentID)
 		}
 
@@ -119,24 +129,34 @@ func getStudentHelper(studentID string, params url.Values) (bool, models.Student
 			panic(err.Error())
 		}
 
+		// Check if the params request to retrieve related module information (?modules=true)
 		if len(params["modules"]) > 0 && params["modules"][0] == "true" {
-			student.Modules = utils.FetchModules(studentID)
+			// Fetch module information by sending http request to module microservice
+			student.Modules = utils.FetchModules(student.StudentID)
 		}
 
+		// Check if the params request to retrieve related marks information (?marks=true)
 		if len(params["marks"]) > 0 && params["marks"][0] == "true" {
-			student.Results = utils.FetchMarks(studentID)
+			// Fetch marks information by sending http request to marks microservice
+			student.Results = utils.FetchMarks(student.StudentID)
 		}
 
+		// Check if the params request to retrieve related timetable information (?timetable=true)
 		if len(params["timetable"]) > 0 && params["timetable"][0] == "true" {
-			student.Timetable = utils.FetchTimetable(studentID)
+			// Fetch timetable information by sending http request to timetable microservice
+			student.Timetable = utils.FetchTimetable(student.StudentID)
 		}
 
+		// Check if the params request to retrieve related ratings information (?ratings=true)
 		if len(params["ratings"]) > 0 && params["ratings"][0] == "true" {
-			student.Ratings = utils.FetchRatings(studentID)
+			// Fetch ratings information by sending http request to ratings microservice
+			student.Ratings = utils.FetchRatings(student.StudentID)
 		}
 
+		// Check if the params request to retrieve related comments information (?comments=true)
 		if len(params["comments"]) > 0 && params["comments"][0] == "true" {
-			student.Comments = utils.FetchComments(studentID)
+			// Fetch comments information by sending http request to comments microservice
+			student.Comments = utils.FetchComments(student.StudentID)
 		}
 
 		isExist = true

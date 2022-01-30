@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS Lessons(
 INSERT IGNORE INTO Lessons (LessonID, ModuleID, LessonDay, StartTime, EndTime) VALUES("1", "1", "Monday", "0900", "1100");
 INSERT IGNORE INTO Lessons (LessonID, ModuleID, LessonDay, StartTime, EndTime) VALUES("2", "2", "Tuesday", "1400", "1600");
 
--- Create LessonStudent Table
+-- Create LessonStudent Table (To indicate the relationship between lesson and student)
 CREATE TABLE IF NOT EXISTS LessonStudent(
     LessonID VARCHAR(36) NOT NULL,
     StudentID VARCHAR(36) NOT NULL,
@@ -112,7 +112,7 @@ INSERT IGNORE INTO LessonStudent (LessonID, StudentID) VALUES("1", "2");
 INSERT IGNORE INTO LessonStudent (LessonID, StudentID) VALUES("2", "1");
 INSERT IGNORE INTO LessonStudent (LessonID, StudentID) VALUES("2", "3");
 
--- Create Ratings Table
+-- Create Ratings Table 
 CREATE TABLE IF NOT EXISTS Ratings(
 	RatingID VARCHAR(36) NOT NULL,
 	CreatorID VARCHAR(36) NOT NULL,
