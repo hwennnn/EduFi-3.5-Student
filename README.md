@@ -30,6 +30,54 @@ Finally, open http://localhost:9210 for the frontend client.
 
 ![Architecture Diagram](docs/architecture_diagram.png)
 
+## Architecture Design Consideration
+
+### Nginx Proxy Server
+
+Ideally, in real practice, there should be only one endpoint exposed to the external network. In this project, there are two services implemented for the end-user which are web frontend, and the server API. Hence, the Nginx proxy server is used to better facilitate this idea.
+
+By definition, a Nginx HTTPS reverse proxy is an intermediary proxy service which takes a client request, passes it on to one or more servers, and subsequently delivers the server's response back to the client. In this project, the Nginx reverse proxy is the only exposed endpoint (at port 9210) to the external network. The user browses http://localhost:9210 for the frontend, and retrieves the data from http://localhost:9210/server.
+
+Based on the configuration in the proxy, the client requests from http://localhost:9210 will be redirected to the web frontend container which resides at port 3000 internally in the docker network. Meanwhile the API requests from http://localhost:9210/server will be redirected to the general server container which resides at port 5000 internally in the docker network.
+
+One of the benefits of using the Nginx reverse proxy is that it reduces the surfaced endpoints needed for the backend, in other hands, it also reduce complexity at the user end as the user would only need to know one endpoint of the service. Besides, it also increases security by acting as a line of defense for the backend servers.
+
+### Microservices design
+
+The business logic from the assignment case studies (3.5 Student Package) breaks down into **seven API microservices** (student, tutor, module, mark, timetable, rating and comment). In this project, I was responsible for the student domain and I implemented the [student database](backend/students/database) and its [REST API backend](backend/students/server). I would need to be dependent on another 6 microservices developed by other people. As of 29 January 2022, I was having difficulties to consumer other microservices, hence I decided to create a [mock database](backend/mock/database) and [mock server](backend/mock/server) to satisfy the necessary requirements and for demo purposes.
+
+In general, each microservice is connected to its own MySQL database. The microservice will serve a server endpoint which allows external http requests with methods (GET/PUT/POST) to retrieve, create, or update the row(s) in the backend database related to the microservice module. For example, **student microservice** server allows for retrieving all students with customisable query parameters at `api/v1/drivers`, and retrieving, creating, updating for a specific student at `api/v1/student/{studentid}`.
+
+In addition, each microservice is completely isolated from another microservices, hence will not cause any negative impacts when the other microservice is down or being redeployed. With the design of the microservice, each microservice is independent and loosely coupled, and can be independent upgraded or restarted, unlike monolith or n-tier architecture which would need to restart the whole system after the new deployment.
+
+In the case when one microservice needs to communicate with another microservices, **anti-corruption layer** is implemented between the layer in the backend to facilitate the communication.
+
+### Anti-corruption layer
+
+In betweeen the microservices, the **anti-corruption layer** is implemented to handle and redirect internal microservices requests. The server is written in **node.js and Express.js**.
+
+By definition, anti-corruption layer (ACL) creates an isolating layer to provide clients with functionality in terms of their own domain model. The layer talks to the other system through its existing interface, requiring little or no modification to the other system. Internally, the layer translates in both directions as necessary between the two models. (Quoted from **Eric Evans, Domain Driven Design, 16th printing, page 365**)
+
+In short, an ACL is not just about separating the messy code, but as a means to communicate between bounded contexts. It translates from one context to the other, so that data in each context reflects the language and the way that that context thinks and talks about the data.
+
+In the project, the express server serves at `port 4000` internally at the docker network. When one microservice wants to communicate with another microservice, the microservice only needs to send http request with related pathname, for example `api/v1/modules`, to the server which acts as ACL. By this way the microservice would not have to explicitly call that particular microservice endpoint, which is against the domain driven design (DDD). Instead, the microservice only knows and calls one surface endpoint which will do the lifting communication work.
+
+The usage of ACL in the project is that when the student microservice needs to communicate with other microservicse in order to retrieve the module, mark, timetable, rating and comment information associated with the student. The student microservice will send http request with related information to the ACL, and the ACL will redirect the requests to respective microservices and return the desired result back to the trip microservice.
+
+### React Next.js Frontend
+
+The frontend is written is React.js with Next.js. The frontend simulates the features of EduFi platform such as the user login, account creation, profile edit, creating trip, initiating or ending trip, and viewing past completed trips.
+
+In the case when the frontend wants to communicate with the backend server to fulfill client requests, a **general-purpose API backend server** is implemented in between the layer of frontend and backend to facilitate the communication.
+
+### General-Purpose API Backend Server
+
+It works similarly as ACL, but the communication takes place between the backend and the frontend.
+
+With this generalised backend server, there would be only one server endpoint surfaced to the client. This could improve backend security by preventing abusing of the backend microservice server as those microservices server endpoint are not opened to the public.
+
+For example, when the user wants to create a passenger account, the http request containing passenger information will be sent to the generalised server `port 5000`. The server will then redirect the request to the passenger microservice for the passenger account creation. The result will then sent back to the originated frontend server.
+
 ## API Documentation
 
 Kindly refer to [this](docs/README.md) for more details on the EduFi Student API server.
