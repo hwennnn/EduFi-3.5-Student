@@ -81,7 +81,17 @@ The usage of ACL in the project is that when the student microservice needs to c
 
 ### React Next.js Frontend
 
-The frontend is written is React.js with Next.js. The frontend simulates the features of EduFi platform such as the user login, account creation, profile edit, creating trip, initiating or ending trip, and viewing past completed trips.
+The frontend is written is React.js with Next.js. The frontend simulates the features of EduFi platform such as
+
+- View students particulars
+- Update student particulars
+- View modules taken by student
+- View original results of student
+- View adjusted results of student after marks trading
+- View timetable of student
+- List all students with ratings
+- Search for other students
+- View other students’ profile, modules, timetable, ratings, and comments
 
 In the case when the frontend wants to communicate with the backend server to fulfill client requests, a **general-purpose API backend server** is implemented in between the layer of frontend and backend to facilitate the communication.
 
@@ -91,7 +101,7 @@ It works similarly as ACL, but the communication takes place between the backend
 
 With this generalised backend server, there would be only one server endpoint surfaced to the client. This could improve backend security by preventing abusing of the backend microservice server as those microservices server endpoint are not opened to the public.
 
-For example, when the user wants to create a passenger account, the http request containing passenger information will be sent to the generalised server `port 5000`. The server will then redirect the request to the passenger microservice for the passenger account creation. The result will then sent back to the originated frontend server.
+For example, when the user wants to update his student particulars, the http request containing student information will be sent to the generalised server `http://localhost:9210/server`. The server will then redirect the request to the student microservice for the update student particulars. The result will then sent back to the originated frontend server.
 
 ## API Documentation
 
