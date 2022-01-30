@@ -28,6 +28,8 @@ Finally, open http://localhost:9210 for the frontend client.
 
 ## Containers
 
+Each microservice in the project is containerised and hosted on the docker registries therefore the containerised application will become lightweight, efficient to move between environments and run independently. These characteristics further enhance the benefits of developing microservices.
+
 |                  Container Name                  |                  Description                   | Links                                                                                                                                                                         |
 | :----------------------------------------------: | :--------------------------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |  [edufi_student_db](backend/students/database)   |  MySQL database used for Student Microservice  | [DockerHub](https://hub.docker.com/r/hwendev/edufi_student_db) <br> [Github Packages](https://github.com/hwennnn/EduFi-3.5-Student/pkgs/container/edufi_student_db)           |
