@@ -103,6 +103,31 @@ With this generalised backend server, there would be only one server endpoint su
 
 For example, when the user wants to update his student particulars, the http request containing student information will be sent to the generalised server `http://localhost:9210/server`. The server will then redirect the request to the student microservice for the update student particulars. The result will then sent back to the originated frontend server.
 
+## DevOps Approach
+
+### Continuous Integration
+
+Automated API integration tests would be conducted when there are commit changes pushed to the branch. This results in better code quality as code is being continuously tested allowing for bugs and errors to quickly surface after each trigger.
+
+![CI Screenshot 1](docs/images/ci-1.png)
+When the commits are pushed to the branch, the workflow will first compose the containers in the virtualised environment. Then, another workflow will run to test the API endpoints on that environment through postman testing to ensure the API is working in the standalone virtualised environment.
+
+![CI Result](docs/images/ci-result.png)
+The final result would look as shown above. If the integration testing fails, it will automatically create an issue in Github to notify the developers the errors of the CI workflows.
+
+### Continuous Delivery
+
+Continuous Delivery is implemented to create a release package to Git Package Release Area. It eliminates the manual creation of packages, but instead it is done automatically to create the release after being triggered by the push tag event. The automatic workflow also ensures that all proper testing has been done before the release. Through automation, it makes releasing the application reliable.
+
+![CD Screenshot 1](docs/images/cd-1.png)
+
+From the above diagram, it can be seen that the creation of the tag triggered the CD pipeline
+which will first conduct the testing pipeline to ensure that the API integration testing has passed in the production environment, and then it will release a package using the standard GitHub release mechanism. A release branch will also be created by the workflow for better keeping track of the branch with different versions.
+
+![CD Screenshot 2](docs/images/cd-2.png)
+
+Besides, the CD pipeline will build and push the container images to the DockerHub and Github Packages. This successfully eliminates the manual tagging and pushing the images, instead they are being done automatically especially there are eight container images need to be pushed in this project. As a result, the task of releasing container images to Docker registries becomes more reliable and manages to save a lot of time of the developers.
+
 ## API Documentation
 
 Kindly refer to [this](docs/README.md) for more details on the EduFi Student API server.
