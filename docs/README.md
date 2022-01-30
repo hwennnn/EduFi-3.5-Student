@@ -185,3 +185,327 @@ Case 2: If studentID does not exist, create the student using the information re
 422 - Please supply student information in JSON format
 422 - The data in body and parameters do not match
 ```
+
+## 2. Mock REST API Documentation
+
+As mentioned earlier in the main README, as of 29 January 2022, I was having difficulties to consumer other microservices, hence I decided to create a [mock database](../backend/mock/database) and [mock server](../backend/mock/server) to satisfy the necessary requirements and for demo purposes.
+
+**Base URL: http://10.31.11.12:9212**
+
+### 2.1 **[GET]** api/v1/tutors/
+
+It retrieves the tutors from the mock MySQL database.
+
+#### Endpoint URL
+
+```bash
+http://10.31.11.12:9212/api/v1/tutors/
+```
+
+#### Response
+
+The response will be a status code 200 and an array of tutor json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
+
+```json
+[
+  {
+    "tutor_id": "1",
+    "first_name": "Wen Qiang",
+    "last_name": "Wesley Teo",
+    "email": "wesleytwq@gmail.com",
+    "descriptions": "This is the description for Tutor #1"
+  },
+  {
+    "tutor_id": "2",
+    "first_name": "Kheng Hian",
+    "last_name": "Low",
+    "email": "lowkh@gmail.com",
+    "descriptions": "This is the description for Tutor #2"
+  }
+]
+```
+
+---
+
+### 2.2 **[GET]** api/v1/tutors/:tutorid
+
+It retrieves the tutor associated with the supplied tutorid. A tutorID must be supplied in the request query parameters.
+
+#### Endpoint URL
+
+```bash
+http://10.31.11.12:9212/api/v1/tutors/1/
+```
+
+#### Response
+
+The response will be a status code 200 and a student json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful. For example, it will return 404 if no record is found.
+
+```json
+{
+  "tutor_id": "1",
+  "first_name": "Wen Qiang",
+  "last_name": "Wesley Teo",
+  "email": "wesleytwq@gmail.com",
+  "descriptions": "This is the description for Tutor #1"
+}
+```
+
+---
+
+### 2.3 **[GET]** api/v1/modules/:studentid
+
+It retrieves the modules taken by the student with the given studentID from the mock MySQL database.
+
+#### Endpoint URL
+
+```bash
+http://10.31.11.12:9212/api/v1/modules/1/
+```
+
+#### Response
+
+The response will be a status code 200 and an array of module json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
+
+```json
+[
+  {
+    "module_id": "1",
+    "module_code": "CM",
+    "module_name": "Computing Math",
+    "synopsis": "Learn MATH",
+    "learning_objectives": "UNION INTERSEC",
+    "tutor": {
+      "tutor_id": "1",
+      "first_name": "Wen Qiang",
+      "last_name": "Wesley Teo",
+      "email": "wesleytwq@gmail.com",
+      "descriptions": "This is the description for Tutor #1"
+    }
+  },
+  {
+    "module_id": "2",
+    "module_code": "PRG1",
+    "module_name": "Programming 1",
+    "synopsis": "Learn introductory programming",
+    "learning_objectives": "PYTHON PROGRAMMING",
+    "tutor": {
+      "tutor_id": "2",
+      "first_name": "Kheng Hian",
+      "last_name": "Low",
+      "email": "lowkh@gmail.com",
+      "descriptions": "This is the description for Tutor #2"
+    }
+  }
+]
+```
+
+---
+
+### 2.4 **[GET]** api/v1/marks/:studentid
+
+It retrieves the results of the student with the given studentID from the mock MySQL database.
+
+#### Endpoint URL
+
+```bash
+http://10.31.11.12:9212/api/v1/marks/1/
+```
+
+#### Response
+
+The response will be a status code 200 and an array of marks json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
+
+```json
+[
+  {
+    "mark_id": "1",
+    "module_id": "1",
+    "student_id": "1",
+    "marks": 81.5,
+    "adjusted_marks": 85,
+    "module": {
+      "module_id": "1",
+      "module_code": "CM",
+      "module_name": "Computing Math",
+      "synopsis": "Learn MATH",
+      "learning_objectives": "UNION INTERSEC",
+      "tutor": {
+        "tutor_id": "1",
+        "first_name": "Wen Qiang",
+        "last_name": "Wesley Teo",
+        "email": "wesleytwq@gmail.com",
+        "descriptions": "This is the description for Tutor #1"
+      }
+    }
+  },
+  {
+    "mark_id": "2",
+    "module_id": "2",
+    "student_id": "1",
+    "marks": 95,
+    "adjusted_marks": 0,
+    "module": {
+      "module_id": "2",
+      "module_code": "PRG1",
+      "module_name": "Programming 1",
+      "synopsis": "Learn introductory programming",
+      "learning_objectives": "PYTHON PROGRAMMING",
+      "tutor": {
+        "tutor_id": "2",
+        "first_name": "Kheng Hian",
+        "last_name": "Low",
+        "email": "lowkh@gmail.com",
+        "descriptions": "This is the description for Tutor #2"
+      }
+    }
+  }
+]
+```
+
+---
+
+### 2.5 **[GET]** api/v1/timetable/:studentid
+
+It retrieves the timetable taken by the student with the given studentID from the mock MySQL database.
+
+#### Endpoint URL
+
+```bash
+http://10.31.11.12:9211/api/v1/timetable/1/
+```
+
+#### Response
+
+The response will be a status code 200 and an array of timetable json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
+
+```json
+[
+  {
+    "lesson_id": "1",
+    "module_id": "1",
+    "lesson_day": "Monday",
+    "start_time": "0900",
+    "end_time": "1100",
+    "module": {
+      "module_id": "1",
+      "module_code": "CM",
+      "module_name": "Computing Math",
+      "synopsis": "Learn MATH",
+      "learning_objectives": "UNION INTERSEC",
+      "tutor": {
+        "tutor_id": "1",
+        "first_name": "Wen Qiang",
+        "last_name": "Wesley Teo",
+        "email": "wesleytwq@gmail.com",
+        "descriptions": "This is the description for Tutor #1"
+      }
+    }
+  },
+  {
+    "lesson_id": "2",
+    "module_id": "2",
+    "lesson_day": "Tuesday",
+    "start_time": "1400",
+    "end_time": "1600",
+    "module": {
+      "module_id": "2",
+      "module_code": "PRG1",
+      "module_name": "Programming 1",
+      "synopsis": "Learn introductory programming",
+      "learning_objectives": "PYTHON PROGRAMMING",
+      "tutor": {
+        "tutor_id": "2",
+        "first_name": "Kheng Hian",
+        "last_name": "Low",
+        "email": "lowkh@gmail.com",
+        "descriptions": "This is the description for Tutor #2"
+      }
+    }
+  }
+]
+```
+
+---
+
+### 2.6 **[GET]** api/v1/ratings/:studentid
+
+It retrieves the ratings received by the student with the given studentID from the mock MySQL database.
+
+#### Endpoint URL
+
+```bash
+http://10.31.11.12:9211/api/v1/ratings/1/
+```
+
+#### Response
+
+The response will be a status code 200 and an array of ratings json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
+
+```json
+[
+  {
+    "rating_id": "1",
+    "creator_id": "2",
+    "creator_type": "Student",
+    "target_id": "1",
+    "target_type": "Student",
+    "rating_score": 4,
+    "is_anonymous": false,
+    "created_time": "1643440926037"
+  },
+  {
+    "rating_id": "4",
+    "creator_id": "3",
+    "creator_type": "Student",
+    "target_id": "1",
+    "target_type": "Student",
+    "rating_score": 3,
+    "is_anonymous": true,
+    "created_time": "1643446626037"
+  }
+]
+```
+
+---
+
+### 2.7 **[GET]** api/v1/comments/:studentid
+
+It retrieves the comments received by the student with the given studentID from the mock MySQL database.
+
+#### Endpoint URL
+
+```bash
+http://10.31.11.12:9211/api/v1/comments/1/
+```
+
+#### Response
+
+The response will be a status code 200 and an array of comments json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
+
+```json
+[
+  {
+    "comment_id": "1",
+    "creator_id": "2",
+    "creator_type": "Student",
+    "target_id": "1",
+    "target_type": "Student",
+    "comment_data": "Best teammates ever",
+    "is_anonymouse": false,
+    "created_time": "1643440926037"
+  },
+  {
+    "comment_id": "4",
+    "creator_id": "3",
+    "creator_type": "Student",
+    "target_id": "1",
+    "target_type": "Student",
+    "comment_data": "Programming god",
+    "is_anonymouse": true,
+    "created_time": "1643446626037"
+  }
+]
+```
+
+---
