@@ -15,7 +15,7 @@
   - [Nginx Proxy Server](#Nginx-Proxy-Server)
   - [Microservices Design](#Microservices-Design)
   - [Anti-corruption Layer](#Anti-corruption-Layer)
-  - [React Next.js Frontend](#React-Next.js-Frontend)
+  - [React Next.js Frontend](#React-Nextjs-Frontend)
   - [General-Purpose API Backend Server](#General-Purpose-API-Backend-Server)
 
 - [DevOps Approach](#Devops-Approach)
