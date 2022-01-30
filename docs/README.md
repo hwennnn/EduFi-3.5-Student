@@ -189,7 +189,7 @@ Case 2: If studentID does not exist, create the student using the information re
 
 ## 2. Mock REST API Documentation
 
-As mentioned earlier in the main README, as of 29 January 2022, I was having difficulties to consumer other microservices, hence I decided to create a [mock database](../backend/mock/database) and [mock server](../backend/mock/server) to satisfy the necessary requirements and for demo purposes.
+As mentioned earlier in the main README, as of 29 January 2022, I was having difficulties to consumer other microservices, hence I decided to create a mock database and mock server to satisfy the necessary requirements and for demo purposes.
 
 **Base URL: http://10.31.11.12:9212**
 
