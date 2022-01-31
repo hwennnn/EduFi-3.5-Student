@@ -4,7 +4,7 @@
 | :--------------: | :--: | :---------------------: |
 |     Frontend     | 9210 | http://10.31.11.12:9210 |
 | Student REST API | 9211 | http://10.31.11.12:9211 |
-|  Mock REST API   | 9211 | http://10.31.11.12:9212 |
+|  Mock REST API   | 9212 | http://10.31.11.12:9212 |
 
 ## 1. Student Rest API Documentation
 
