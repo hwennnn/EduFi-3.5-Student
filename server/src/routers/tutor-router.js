@@ -7,7 +7,7 @@ const tutorRouter = express.Router();
 // Redirect the requests to the tutor microservice
 
 /* 
-As of 5 February 2022, the developer of Rating REST API didnt upload any documentation for the usage,
+As of 5 February 2022, the developer of Tutor REST API didnt upload any documentation for the usage,
 although I find his code in Github.
 
 Hence, this request will be redirected to the mock API.
