@@ -1,4 +1,12 @@
-# The screenshots of React Next.js Frontend
+# The screenshots of Edufi Frontend
+
+## Notes
+
+The index and login page is only for demo purpose!
+
+The student should be brought immediately to http://10.31.11.12:9210/student/1 if he has already signed in.
+
+Likewise, for tutor, it should be redirected immediately to http://10.31.11.12:9210/tutor/1.
 
 ## Home
 
