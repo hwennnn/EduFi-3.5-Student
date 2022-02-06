@@ -51,6 +51,14 @@ http://10.31.11.12:9211/api/v1/students/
 |    address    | string | Not required | The address of the student                                                                  |
 | phone_number  | string | Not required | The phone number of the student                                                             |
 
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9211/api/v1/students/'
+```
+
 #### Response
 
 The response will be a status code 200 and an array of student json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
@@ -240,6 +248,14 @@ http://10.31.11.12:9211/api/v1/students/1
 | timetable | true  | Not required | Fetch module information by sending http request to timetable microservice |
 |  ratings  | true  | Not required | Fetch module information by sending http request to ratings microservice   |
 | comments  | true  | Not required | Fetch module information by sending http request to comments microservice  |
+
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9211/api/v1/students/1'
+```
 
 #### Response
 
@@ -465,6 +481,22 @@ http://10.31.11.12:9211/api/v1/students/4
 }
 ```
 
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9211/api/v1/students/4' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "student_id": "4",
+  "name": "hello world",
+  "date_of_birth": "1007136000000",
+  "address": "#12-123 BLK666 Woodlands, Singapore",
+  "phone_number": "6544444444"
+}'
+```
+
 #### Response
 
 Case 1: If the compulsory student information is not provided, it will return message which says the information is not correctly supplied<br>
@@ -509,6 +541,19 @@ http://10.31.11.12:9211/api/v1/students/4
 }
 ```
 
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9211/api/v1/students/4' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "student_id": "4",
+  "phone_number": "6522222222"
+}'
+```
+
 #### Response
 
 Case 1: If studentID exists, update the student using the information retrieved from request body<br>
@@ -535,6 +580,14 @@ It retrieves the tutors from the mock MySQL database.
 
 ```bash
 http://10.31.11.12:9212/api/v1/tutors/
+```
+
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9212/api/v1/tutors/'
 ```
 
 #### Response
@@ -572,6 +625,14 @@ It retrieves the tutor associated with the supplied tutorid. A tutorID must be s
 http://10.31.11.12:9212/api/v1/tutors/1/
 ```
 
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9212/api/v1/tutors/1/'
+```
+
 #### Response
 
 The response will be a status code 200 and a student json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful. For example, it will return 404 if no record is found.
@@ -596,6 +657,14 @@ It retrieves the modules taken by the student with the given studentID from the 
 
 ```bash
 http://10.31.11.12:9212/api/v1/modules/1/
+```
+
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9212/api/v1/modules/1/'
 ```
 
 #### Response
@@ -645,6 +714,14 @@ It retrieves the results of the student with the given studentID from the mock M
 
 ```bash
 http://10.31.11.12:9212/api/v1/marks/1/
+```
+
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9212/api/v1/marks/1/'
 ```
 
 #### Response
@@ -710,6 +787,14 @@ It retrieves the timetable taken by the student with the given studentID from th
 http://10.31.11.12:9211/api/v1/timetable/1/
 ```
 
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9211/api/v1/timetable/1/'
+```
+
 #### Response
 
 The response will be a status code 200 and an array of timetable json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
@@ -773,6 +858,14 @@ It retrieves the ratings received by the student with the given studentID from t
 http://10.31.11.12:9211/api/v1/ratings/1/
 ```
 
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9211/api/v1/ratings/1/'
+```
+
 #### Response
 
 The response will be a status code 200 and an array of ratings json object if successful, otherwise it would be an error code with a corresponding status message if unsuccessful.
@@ -812,6 +905,14 @@ It retrieves the comments received by the student with the given studentID from 
 
 ```bash
 http://10.31.11.12:9211/api/v1/comments/1/
+```
+
+#### Example Request
+
+cURL
+
+```bash
+curl --location --request GET 'http://10.31.11.12:9211/api/v1/comments/1/'
 ```
 
 #### Response
