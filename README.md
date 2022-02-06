@@ -31,11 +31,15 @@
 
 ## Folder Structure
 
-|       Codebase       |            Description             |
-| :------------------: | :--------------------------------: |
-| [frontend](frontend) |       React Next.js Frontend       |
-|  [backend](backend)  |           EduFi Backend            |
-|   [server](server)   | General-Purpose API Backend Server |
+|               Codebase               |                 Description                 |
+| :----------------------------------: | :-----------------------------------------: |
+|         [frontend](frontend)         |           React Next.js Frontend            |
+|          [backend](backend)          |                EduFi Backend                |
+|           [server](server)           |     General-Purpose API Backend Server      |
+|       [deployment](deployment)       | Deployment script used in production server |
+|             [test](test)             |    API Integration Testing with Postman     |
+|             [docs](docs)             |        Documentation of this project        |
+| [CI/CD Workflows](.github/workflows) |     CI/CD Workflows with Github Actions     |
 
 ## Usage
 

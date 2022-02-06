@@ -5,7 +5,7 @@ const url = require('url');
 
 const studentRouter = express.Router();
 
-// Redirect the requests to the driver microservice
+// Redirect the requests to the student microservice
 
 studentRouter.get("/", async function (req, res) {
     try {
